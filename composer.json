@@ -1,0 +1,47 @@
+{
+    "name": "wem/contao-form-data-manager",
+    "description": "Bundle for manage the form data",
+    "type": "contao-bundle",
+    "require": {
+        "php": ">=7.4 || >=8.2",
+        "contao/core-bundle": "4.13.x || 5.3.x",
+        "webexmachina/contao-utils": "dev-php-8-2-preparation"
+    },
+    "require-dev": {
+        "contao/manager-plugin": "^2.0",
+        "rector/rector": "^1.0",
+        "contao/maker-bundle": "^5.3"
+    },
+    "conflict": {
+        "contao/manager-plugin": "<2.0 || >=3.0"
+    },
+    "license": "LGPL-3.0+",
+    "autoload": {
+        "psr-4": {
+            "Wem\\ContaoFormDataManagerBundle\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Wem\\ContaoFormDataManagerBundle\\Tests\\": "tests/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Web ex Machina",
+            "email": "contact@webexmachina.fr",
+            "role": "Developer"
+        }
+    ],
+    "website": "https://www.webexmachina.fr/",
+    "minimum-stability": "stable",
+    "support":
+    {
+        "issues": "https://github.com/webexmachina/wem-contao-form-data/issues",
+        "source": "https://github.com/webexmachina/wem-contao-form-data"
+    },
+    "extra":
+    {
+        "contao-manager-plugin": "WEM\\ContaoFormDataManagerBundle\\ContaoManager\\Plugin"
+    }
+}
