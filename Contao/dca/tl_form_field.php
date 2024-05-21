@@ -13,14 +13,6 @@ declare(strict_types=1);
  */
 
 use Contao\CoreBundle\DataContainer\PaletteManipulator;
-use WEM\WEMFormDataManagerBundle\Classes\Dca\Manipulator as DCAManipulator;
-
-DCAManipulator::create('tl_form_field')
-    ->addField('contains_personal_data', [
-        'inputType' => 'checkbox',
-        'sql' => 'TINYINT(1) unsigned NOT NULL DEFAULT 0',
-    ])
-;
 
 PaletteManipulator::create()
     ->addField('contains_personal_data', 'type')

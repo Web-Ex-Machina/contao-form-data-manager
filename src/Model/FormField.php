@@ -32,5 +32,5 @@ class FormField extends CoreModel
      *
      * @var string
      */
-    protected static $strOrderColumn = 'tstamp DESC';
+    protected static string $strOrderColumn = 'tstamp DESC';
 }

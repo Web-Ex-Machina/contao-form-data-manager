@@ -21,7 +21,6 @@ use Contao\Input;
 use Contao\System;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Contracts\Translation\TranslatorInterface;
-use WEM\WEMFormDataManagerBundle\Classes\Config\Manager\ManagerJson as ConfigurationManager;
 use WEM\WEMFormDataManagerBundle\Model\FormStorage;
 use WEM\WEMFormDataManagerBundle\Model\FormStorageData;
 use WEM\UtilsBundle\Classes\StringUtil;
@@ -31,18 +30,16 @@ class BackendController extends ControllerBackendController
     protected $module;
     protected $type;
     protected $translator;
-    protected $configurationManager;
+
 
     public function __construct(
         string $module,
         string $type,
-        TranslatorInterface $translator,
-        ConfigurationManager $configurationManager
+        TranslatorInterface $translator
     ) {
         $this->module = $module;
         $this->type = $type;
         $this->translator = $translator;
-        $this->configurationManager = $configurationManager;
         System::loadLanguageFile(FormStorage::getTable());
         System::loadLanguageFile(FormStorageData::getTable());
     }

@@ -19,64 +19,28 @@ use Contao\CoreBundle\Exception\AccessDeniedException;
 use Contao\DataContainer;
 use Contao\Image;
 use Contao\Input;
-use Contao\System;
 use Exception;
 use tl_form;
-use WEM\WEMFormDataManagerBundle\Classes\Config\Manager\ManagerJson as CoreConfigurationManager;
 use WEM\WEMFormDataManagerBundle\Classes\FormUtil;
 use WEM\WEMFormDataManagerBundle\Exceptions\Module\FormDataManager\EmailFieldNotMandatoryInForm;
 use WEM\WEMFormDataManagerBundle\Exceptions\Module\FormDataManager\FormNotConfiguredToStoreValues;
 use WEM\WEMFormDataManagerBundle\Exceptions\Module\FormDataManager\NoEmailFieldInForm;
 use WEM\WEMFormDataManagerBundle\Model\FormField;
-use WEM\WEMFormDataManagerBundle\Model\FormStorage;
 
 // class Form extends \tl_form
 class Form extends Backend
 {
-    /** @var CoreConfigurationManager */
-    private $configurationManager;
+
     /** @var Backend */
     private $parent;
 
     public function __construct()
     {
         parent::__construct();
-        $this->configurationManager = System::getContainer()->get('smartgear.config.manager.core');
+
         $this->parent = new tl_form();
     }
 
-    public function listItems(array $row, string $label, DataContainer $dc, array $labels): array
-    {
-        try {
-            $fdmConfig = $this->configurationManager->load()->getSgFormDataManager();
-            if (!$fdmConfig->getSgInstallComplete()) {
-                $labels[1] = $GLOBALS['TL_LANG']['WEM']['SMARTGEAR']['DEFAULT']['fdmNotInstalled'];
-            } elseif ($fdmConfig->getSgInstallComplete()) {
-                try {
-                    // check form configuration
-                    FormUtil::checkFormConfigurationCompliantForFormDataManager($row['id']);
-
-                    $nbFormStorage = FormStorage::countItems(['pid' => $row['id']]);
-
-                    $labels[1] = FormStorage::countItems(['pid' => $row['id']]);
-                } catch (FormNotConfiguredToStoreValues $e) {
-                    $labels[1] = $e->getMessage();
-                } catch (NoEmailFieldInForm $e) {
-                    $labels[1] = $e->getMessage();
-                } catch (EmailFieldNotMandatoryInForm $e) {
-                    $labels[1] = $e->getMessage();
-                } catch (Exception $e) {
-                    $labels[1] = $e->getMessage();
-                }
-            }
-        } catch (\WEM\SmartgearBundle\Exceptions\File\NotFound $e) {
-            $labels[1] = $GLOBALS['TL_LANG']['WEM']['SMARTGEAR']['DEFAULT']['fdmNotInstalled'];
-        } catch (\Exception $e) {
-            $labels[1] = '0';
-        }
-
-        return $labels;
-    }
 
     public function onSubmitCallback(DataContainer $dc): void
     {

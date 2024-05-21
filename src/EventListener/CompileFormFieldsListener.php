@@ -35,7 +35,7 @@ class CompileFormFieldsListener
         string $formId,
         Form $form
     ): void {
-        $GLOBALS['TL_JAVASCRIPT']['sg_formdatamanager'] = 'bundles/wemsmartgear/js/module/formdatamanager/frontend.js';
+        $GLOBALS['TL_JAVASCRIPT']['fdm_formdatamanager'] = 'bundles/wemformdatamanager/js/module/formdatamanager/frontend.js';
     }
 
 }

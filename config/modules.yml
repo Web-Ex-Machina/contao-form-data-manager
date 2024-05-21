@@ -1,10 +1,10 @@
 services:
-  smartgear.backend.module.form_data_manager.listener.process_form_data:
-    class: WEM\SmartgearBundle\Backend\Module\FormDataManager\EventListener\ProcessFormDataListener
+  wemformdatamanager.backend.module.form_data_manager.listener.process_form_data:
+    class: WEM\WEMFormDataManagerBundle\Backend\Module\FormDataManager\EventListener\ProcessFormDataListener
     arguments:
       $routingCandidates: '@contao.routing.candidates'
     public: true
 
-  smartgear.backend.module.form_data_manager.listener.compile_form_fields:
-    class: WEM\SmartgearBundle\Backend\Module\FormDataManager\EventListener\CompileFormFieldsListener
+  wemformdatamanager.backend.module.form_data_manager.listener.compile_form_fields:
+    class: WEM\WEMFormDataManagerBundle\Backend\Module\FormDataManager\EventListener\CompileFormFieldsListener
     public: true

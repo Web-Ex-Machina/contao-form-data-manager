@@ -26,8 +26,8 @@ use Contao\Validator;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use WEM\PersonalDataManagerBundle\Model\PersonalData;
 use WEM\PersonalDataManagerBundle\Service\PersonalDataManagerUi;
-use WEM\WEMFormDataManagerBundle\Classes\FileUtil;
-use WEM\WEMFormDataManagerBundle\Classes\StringUtil;
+use WEM\UtilsBundle\Classes\Files as FileUtil;
+use WEM\UtilsBundle\Classes\StringUtil;
 use WEM\WEMFormDataManagerBundle\Model\Form;
 use WEM\WEMFormDataManagerBundle\Model\FormStorage;
 use WEM\WEMFormDataManagerBundle\Model\FormStorageData;
@@ -46,8 +46,8 @@ class UiListener
         $this->translator = $translator;
         $this->personalDataManagerUi = $personalDataManagerUi;
 
-        $GLOBALS['TL_CSS'][] = 'bundles/wemsmartgear/css/module/personaldatamanager/frontend.css';
-        $GLOBALS['TL_JAVASCRIPT'][] = 'bundles/wemsmartgear/js/module/personaldatamanager/frontend.js';
+        $GLOBALS['TL_CSS'][] = 'bundles/wemformdatamanager/css/module/personaldatamanager/frontend.css';
+        $GLOBALS['TL_JAVASCRIPT'][] = 'bundles/wemformdatamanager/js/module/personaldatamanager/frontend.js';
     }
 
     public function sortData(array $sorted, ?Collection $personalDatas): array

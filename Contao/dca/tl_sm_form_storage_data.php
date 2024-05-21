@@ -37,8 +37,8 @@ $GLOBALS['TL_DCA']['tl_sm_form_storage_data'] = [
             'headerFields' => ['form', 'tstamp', 'status'],
             // 'flag' => DataContainer::SORT_INITIAL_LETTER_ASC,
             'panelLayout' => 'filter;search,limit',
-            // 'child_record_callback' => [WEM\SmartgearBundle\DataContainer\FormStorageData::class, 'listItems'],
-            'child_record_callback' => ['smartgear.data_container.form_storage_data', 'listItems'],
+            // 'child_record_callback' => [WEM\WEMFormDataManagerBundle\DataContainer\FormStorageData::class, 'listItems'],
+            'child_record_callback' => ['wemformdatamanager.data_container.form_storage_data', 'listItems'],
         ],
         'global_operations' => [
             'all' => [
@@ -105,8 +105,8 @@ $GLOBALS['TL_DCA']['tl_sm_form_storage_data'] = [
             'search' => true,
             'inputType' => 'text',
             'eval' => ['maxlength' => 255, 'tl_class' => 'w50'],
-            'load_callback' => [['smartgear.classes.dca.field.callback.load.tl_sm_form_storage_data.value', '__invoke']],
-            'save_callback' => [['smartgear.classes.dca.field.callback.save.tl_sm_form_storage_data.value', '__invoke']],
+            'load_callback' => [['wemformdatamanager.classes.dca.field.callback.load.tl_sm_form_storage_data.value', '__invoke']],
+            'save_callback' => [['wemformdatamanager.classes.dca.field.callback.save.tl_sm_form_storage_data.value', '__invoke']],
             'sql' => "varchar(255) NOT NULL default ''",
         ],
         'contains_personal_data' => [

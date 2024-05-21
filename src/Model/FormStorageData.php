@@ -19,7 +19,7 @@ use Contao\FilesModel;
 use Contao\Validator;
 use Exception;
 use WEM\PersonalDataManagerBundle\Model\Traits\PersonalDataTrait as PDMTrait;
-use WEM\WEMFormDataManagerBundle\Classes\StringUtil;
+use WEM\UtilsBundle\Classes\StringUtil;
 use WEM\UtilsBundle\Model\Model as CoreModel;
 
 /**
@@ -32,18 +32,18 @@ class FormStorageData extends CoreModel
     public const NO_FILE_UPLOADED = 'no_file_uploaded';
     public const FILE_UPLOADED_BUT_NOT_STORED = 'file_uploaded_but_not_stored';
 
-    protected static $personalDataFieldsNames = [
+    protected static array $personalDataFieldsNames = [
         'value',
     ];
-    protected static $personalDataFieldsDefaultValues = [
+    protected static array $personalDataFieldsDefaultValues = [
         'value' => 'managed_by_pdm',
     ];
-    protected static $personalDataFieldsAnonymizedValues = [
+    protected static array $personalDataFieldsAnonymizedValues = [
         'value' => 'anonymized',
     ];
-    protected static $personalDataPidField = 'id';
-    protected static $personalDataEmailField = 'email';
-    protected static $personalDataPtable = 'tl_sm_form_storage_data';
+    protected static string $personalDataPidField = 'id';
+    protected static string $personalDataEmailField = 'email';
+    protected static string $personalDataPtable = 'tl_sm_form_storage_data';
     /**
      * Table name.
      *

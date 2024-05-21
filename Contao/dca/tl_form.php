@@ -24,10 +24,10 @@ DCAManipulator::create('tl_form')
         'icon' => 'user.svg',
     ])
     ->addCtable('tl_sm_form_storage')
-    ->addConfigOnsubmitCallback('smartgear.data_container.form', 'onSubmitCallback')
+    ->addConfigOnsubmitCallback('wemformdatamanager.data_container.form', 'onSubmitCallback')
     ->setListLabelFields(['title', 'submissions'])
     ->setListLabelShowColumns(true)
-    ->addListLabelLabelCallback('smartgear.data_container.form', 'listItems')
+    ->addListLabelLabelCallback('wemformdatamanager.data_container.form', 'listItems')
     ->addField('storeViaFormDataManager', [
         'inputType' => 'checkbox',
         'sql' => "char(1) NOT NULL default ''",
