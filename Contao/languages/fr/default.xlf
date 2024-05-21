@@ -2,51 +2,51 @@
     <file datatype="php" original="system/modules/wem-contao-form-data-manager/languages/en/default.php" source-language="en" target-language="fr">
        <body>
            <!-- Form Data Manager -->
-           <trans-unit id="WEMSG.FDM.FORM.notManagedByFDM">
+           <trans-unit id="WEM.FDM.FORM.notManagedByFDM">
                <source>Form not configured to store values with Form Data Manager</source>
                <target>Formulaire non configuré pour enregistrer les données avec le Form Data Manager</target>
            </trans-unit>
-           <trans-unit id="WEMSG.FDM.FORM.noEmailField">
+           <trans-unit id="WEM.FDM.FORM.noEmailField">
                <source>No "email" field in the form</source>
                <target>Champ "email" non présent dans le formulaire</target>
            </trans-unit>
-           <trans-unit id="WEMSG.FDM.FORM.emailFieldPresentButNotMandatory">
+           <trans-unit id="WEM.FDM.FORM.emailFieldPresentButNotMandatory">
                <source>The "email" field is not mandatory !</source>
                <target>Champ "email" non obligatoire dans le formulaire !</target>
            </trans-unit>
-           <trans-unit id="WEMSG.FDM.FORM.emailFieldLabel">
+           <trans-unit id="WEM.FDM.FORM.emailFieldLabel">
                <source>E-mail</source>
                <target>E-mail</target>
            </trans-unit>
-           <trans-unit id="WEMSG.FDM.FORM.emailFieldPlaceholder">
+           <trans-unit id="WEM.FDM.FORM.emailFieldPlaceholder">
                <source>Your e-mail address</source>
                <target>Votre adresse e-mail</target>
            </trans-unit>
-           <trans-unit id="WEMSG.FDM.EXPORT.fieldNotPresentInForm">
+           <trans-unit id="WEM.FDM.EXPORT.fieldNotPresentInForm">
                <source>Field not present in form</source>
                <target>Champ non présent dans le formulaire</target>
            </trans-unit>
-           <trans-unit id="WEMSG.FDM.PDMUI.buttonShowFile">
+           <trans-unit id="WEM.FDM.PDMUI.buttonShowFile">
                <source>Show</source>
                <target>Afficher</target>
            </trans-unit>
-           <trans-unit id="WEMSG.FDM.PDMUI.buttonDownloadFile">
+           <trans-unit id="WEM.FDM.PDMUI.buttonDownloadFile">
                <source>Download</source>
                <target>Télécharger</target>
            </trans-unit>
-           <trans-unit id="WEMSG.FDM.PDMUI.fileNotFound">
+           <trans-unit id="WEM.FDM.PDMUI.fileNotFound">
                <source>File not found</source>
                <target>Fichier introuvable</target>
            </trans-unit>
-           <trans-unit id="WEMSG.FDM.ERROR.noFileUploaded">
+           <trans-unit id="WEM.FDM.ERROR.noFileUploaded">
                <source>No file uploaded</source>
                <target>Aucun fichier transmis</target>
            </trans-unit>
-           <trans-unit id="WEMSG.FDM.ERROR.fileUploadedButNotStored">
+           <trans-unit id="WEM.FDM.ERROR.fileUploadedButNotStored">
                <source>File uploaded but not stored</source>
                <target>Fichier transmis mais non enregistré</target>
            </trans-unit>
-           <trans-unit id="WEMSG.FDM.ERROR.uploadedFileNotFound">
+           <trans-unit id="WEM.FDM.ERROR.uploadedFileNotFound">
                <source>Uploaded file not found</source>
                <target>Fichier transmis introuvable</target>
            </trans-unit>
