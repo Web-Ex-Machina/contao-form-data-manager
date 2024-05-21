@@ -28,7 +28,9 @@ use WEM\UtilsBundle\Classes\StringUtil;
 class BackendController extends ControllerBackendController
 {
     protected string $module;
+
     protected string $type;
+
     protected TranslatorInterface $translator;
 
 
@@ -66,6 +68,7 @@ class BackendController extends ControllerBackendController
         if (!empty(Input::get('id'))) {
             $this->exportAllFromForm();
         }
+
         $rows = FormStorage::findItems([], 0, 0, ['order' => 'createdAt DESC']);
 
         (new Response(mb_convert_encoding(StringUtil::decodeEntities($this->export($rows)), 'UTF-16LE', 'UTF-8'), Response::HTTP_OK, [
@@ -174,7 +177,7 @@ class BackendController extends ControllerBackendController
             }
         }
 
-        foreach ($headers as $key => $value) {
+        foreach (array_keys($headers) as $key) {
             if (!\in_array($key, $headersKeyToKeep, true)) {
                 $headers[$key] = $this->translator->trans('WEM.FDM.EXPORT.fieldNotPresentInForm', [], 'contao_default');
             }
