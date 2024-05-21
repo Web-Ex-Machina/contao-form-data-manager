@@ -116,6 +116,7 @@ class UiListener
                         $buffer = '';
                         break;
                 }
+
                 break;
             case FormStorage::getTable():
                 switch ($field) {
@@ -130,6 +131,7 @@ class UiListener
                         $buffer = '';
                         break;
                 }
+
                 break;
         }
 
@@ -155,9 +157,11 @@ class UiListener
                             $objGroup = MemberGroupModel::findById($groupId);
                             $buffer .= sprintf('<li>- %s</li>', null !== $objGroup ? $objGroup->name : $this->translator->trans('WEM.SMARTGEAR.DEFAULT.elementUnknown', [], 'contao_default'));
                         }
+
                         $buffer .= '<ul>';
                         break;
                 }
+
                 break;
             case FormStorage::getTable():
                 switch ($field) {
@@ -177,8 +181,10 @@ class UiListener
                                 $buffer = $objPage->title;
                             }
                         }
+
                         break;
                 }
+
                 break;
         }
 
@@ -197,8 +203,10 @@ class UiListener
                         if (empty($buffer)) {
                             return sprintf('<i>%s</i>', $this->translator->trans('WEM.SMARTGEAR.DEFAULT.NotFilled', [], 'contao_default'));
                         }
+
                         break;
                 }
+
                 break;
             case FormStorage::getTable():
                 $buffer = StringUtil::getFormStorageDataValueAsString($this->personalDataManagerUi->formatSingleItemBodyPersonalDataSingleFieldValue($pid, $ptable, $email, $personalData, $personalDatas, $originalModel));
@@ -217,6 +225,7 @@ class UiListener
                                     $buffer = $objFileModel->name;
                                 }
                             }
+
                             break;
                         default:
                             $buffer = StringUtil::getFormStorageDataValueAsString($this->personalDataManagerUi->formatSingleItemBodyPersonalDataSingleFieldValue($pid, $ptable, $email, $personalData, $personalDatas, $originalModel));
@@ -224,11 +233,13 @@ class UiListener
                 } else {
                     $buffer = StringUtil::getFormStorageDataValueAsString($this->personalDataManagerUi->formatSingleItemBodyPersonalDataSingleFieldValue($pid, $ptable, $email, $personalData, $personalDatas, $originalModel));
                 }
+
                 break;
             default:
                 if (empty($buffer)) {
                     return sprintf('<i>%s</i>', $this->translator->trans('WEM.SMARTGEAR.DEFAULT.NotFilled', [], 'contao_default'));
                 }
+
                 break;
         }
 
@@ -259,7 +270,7 @@ class UiListener
     public function buildSingleItemBodyPersonalDataSingleButtons(int $pid, string $ptable, string $email, PersonalData $personalData, array $personalDatas, Model $originalModel, ?File $file, array $buttons): array
     {
 
-        if ($file) {
+        if ($file instanceof File) {
             if (FileUtil::isDisplayableInBrowser($file)) {
                 $buttons['show'] = sprintf('<br /><a href="%s" class="pdm-button pdm-button_show_file pdm-item__personal_data_single__button_show_file" target="_blank" data-path="%s">%s</a>',
                     $this->personalDataManagerUi->getUrl(),
@@ -267,6 +278,7 @@ class UiListener
                     $this->translator->trans('WEM.FDM.PDMUI.buttonShowFile', [], 'contao_default')
                 );
             }
+
             $buttons['download'] = sprintf('<br /><a href="%s" class="pdm-button pdm-button_download_file pdm-item__personal_data_single__button_download_file" target="_blank" data-path="%s">%s</a>',
                 $this->personalDataManagerUi->getUrl(),
                 $file->path,
@@ -287,7 +299,7 @@ class UiListener
             while ($formStorageDatas->next()) {
                 // $objFormStorage->{$formStorageDatas->field_name} = $formStorageDatas->current()->getValueAsString();
                 $objPersonalData = PersonalData::findOneByPidAndPTableAndField((int) $formStorageDatas->id, FormStorageData::getTable(), 'value');
-                if ($objPersonalData) {
+                if ($objPersonalData instanceof Collection) {
                     $objPersonalData = $objPersonalData->current();
                     $arrPersonalDataValues = $objPersonalData->row();
                     $arrPersonalDataValues['field_label'] = $formStorageDatas->field_label;

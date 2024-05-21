@@ -14,6 +14,7 @@ declare(strict_types=1);
 
 namespace WEM\WEMFormDataManagerBundle\EventListener\PersonalDataManager;
 
+use Contao\Model;
 use Contao\Model\Collection;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use WEM\PersonalDataManagerBundle\Model\PersonalData;
@@ -22,7 +23,6 @@ use WEM\WEMFormDataManagerBundle\Model\FormStorageData;
 
 class AnonymizeListener
 {
-    /** @var TranslatorInterface */
     protected TranslatorInterface $translator;
 
     public function __construct(
@@ -34,16 +34,17 @@ class AnonymizeListener
     public function anonymizeByPidAndPtableAndEmail(int $pid, string $ptable, string $email, ?Collection $pdms): ?Collection
     {
         if ($ptable == FormStorage::getTable()) {
-            $arrModels = $pdms ? $pdms->getModels() : [];
+            $arrModels = $pdms instanceof Collection ? $pdms->getModels() : [];
             $formStorageData = FormStorageData::findBy('pid', $pid);
             if ($formStorageData) {
                 while ($formStorageData->next()) {
                     $objPersonalData = PersonalData::findOneByPidAndPTableAndEmail((int)$formStorageData->id, FormStorageData::getTable(), $email);
-                    if ($objPersonalData) {
+                    if ($objPersonalData instanceof Model) {
                         $arrModels[] = $objPersonalData;
                     }
                 }
             }
+
             $pdms = \count($arrModels) > 0 ? new Collection($arrModels, PersonalData::getTable()) : null;
         }
 
