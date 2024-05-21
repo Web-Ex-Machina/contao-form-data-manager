@@ -83,27 +83,15 @@ class Form extends Backend
         // parent::checkPermission();
         $this->parent->checkPermission();
 
-        // Check current action
-        switch (Input::get('act')) {
-            case 'delete':
-                if ($this->isItemUsedBySmartgear((int) Input::get('id'))) {
-                    throw new AccessDeniedException('Not enough permissions to '.Input::get('act').' form ID '.Input::get('id').'.');
-                }
-                break;
+        if (Input::get('act') === 'delete') {
+            if ($this->isItemUsedBySmartgear((int) Input::get('id'))) {
+                throw new AccessDeniedException('Not enough permissions to '.Input::get('act').' form ID '.Input::get('id').'.');
+            }
         }
     }
 
     /**
      * Return the delete form button.
-     *
-     * @param array $row
-     * @param string $href
-     * @param string $label
-     * @param string $title
-     * @param string $icon
-     * @param string $attributes
-     *
-     * @return string
      */
     public function deleteItem(array $row, string $href, string $label, string $title, string $icon, string $attributes): string
     {
@@ -126,7 +114,7 @@ class Form extends Backend
             if ($formContactConfig->getSgInstallComplete() && $id === (int) $formContactConfig->getSgFormContact()) {
                 return true;
             }
-        } catch (\Exception $e) {
+        } catch (\Exception $exception) {
         }
 
         return false;
