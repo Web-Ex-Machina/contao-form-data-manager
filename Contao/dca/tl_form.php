@@ -14,26 +14,23 @@ declare(strict_types=1);
 
 use Contao\CoreBundle\DataContainer\PaletteManipulator;
 use Contao\DcaLoader;
-//use WEM\WEMFormDataManagerBundle\Classes\Dca\Manipulator as DCAManipulator;
-// TODO : reprendre ce que fait le manipulator
+
 (new DcaLoader('tl_form'))->load();
 
-//DCAManipulator::create('tl_form')
-//    ->addListOperation('contacts', [
-//        'href' => 'table=tl_sm_form_storage',
-//        'icon' => 'user.svg',
-//    ])
-//    ->addCtable('tl_sm_form_storage')
-//    ->addConfigOnsubmitCallback('wemformdatamanager.data_container.form', 'onSubmitCallback')
-//    ->setListLabelFields(['title', 'submissions'])
-//    ->setListLabelShowColumns(true)
-//    ->addListLabelLabelCallback('wemformdatamanager.data_container.form', 'listItems')
-//    ->addField('storeViaFormDataManager', [
-//        'inputType' => 'checkbox',
-//        'sql' => "char(1) NOT NULL default ''",
-//    ])
-//    ->addField('submissions', []) // to have translations in tl_form list column label
-//;
+$GLOBALS['TL_DCA']['tl_form']['list']['operations']['contacts'] = [
+    'href' => 'table=tl_sm_form_storage',
+    'icon' => 'user.svg',
+];
+$GLOBALS['TL_DCA']['tl_form']['config']['ctable'][] = 'tl_sm_form_storage';
+$GLOBALS['TL_DCA']['tl_form']['config']['onsubmit_callback'][] = ['wem.form_data_manager.data_container.form', 'onSubmitCallback'];
+$GLOBALS['TL_DCA']['tl_form']['list']['label']['fields'] = ['title', 'submissions'];
+$GLOBALS['TL_DCA']['tl_form']['list']['label']['showColumns'] = true;
+$GLOBALS['TL_DCA']['tl_form']['list']['label']['label_callback'] = ['wem.form_data_manager.data_container.form', 'listItems'];
+$GLOBALS['TL_DCA']['tl_form']['fields']['storeViaFormDataManager'] = [
+    'inputType' => 'checkbox',
+    'sql' => "char(1) NOT NULL default ''",
+];
+$GLOBALS['TL_DCA']['tl_form']['fields']['submissions'] = [];
 
 PaletteManipulator::create()
     ->addField('storeViaFormDataManager', 'storeValues', PaletteManipulator::POSITION_BEFORE)
