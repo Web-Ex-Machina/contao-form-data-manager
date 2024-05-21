@@ -12,8 +12,9 @@ declare(strict_types=1);
  * @link     https://github.com/Web-Ex-Machina/wem-contao-form-data-manager/
  */
 
-namespace WEM\WEMFormDataManagerBundle\Backend\Module\FormDataManager\EventListener\PersonalDataManager;
+namespace WEM\WEMFormDataManagerBundle\EventListener\PersonalDataManager;
 
+use Contao\Model\Collection;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use WEM\PersonalDataManagerBundle\Model\PersonalData;
 use WEM\WEMFormDataManagerBundle\Model\FormStorage;
@@ -22,7 +23,7 @@ use WEM\WEMFormDataManagerBundle\Model\FormStorageData;
 class AnonymizeListener
 {
     /** @var TranslatorInterface */
-    protected $translator;
+    protected TranslatorInterface $translator;
 
     public function __construct(
         TranslatorInterface $translator
@@ -30,22 +31,20 @@ class AnonymizeListener
         $this->translator = $translator;
     }
 
-    public function anonymizeByPidAndPtableAndEmail(int $pid, string $ptable, string $email, ?\Contao\Model\Collection $pdms): ?\Contao\Model\Collection
+    public function anonymizeByPidAndPtableAndEmail(int $pid, string $ptable, string $email, ?Collection $pdms): ?Collection
     {
-        switch ($ptable) {
-            case FormStorage::getTable():
-                $arrModels = $pdms ? $pdms->getModels() : [];
-                $formStorageData = FormStorageData::findBy('pid', $pid);
-                if ($formStorageData) {
-                    while ($formStorageData->next()) {
-                        $objPersonalData = PersonalData::findOneByPidAndPTableAndEmail((int) $formStorageData->id, FormStorageData::getTable(), $email);
-                        if ($objPersonalData) {
-                            $arrModels[] = $objPersonalData;
-                        }
+        if ($ptable == FormStorage::getTable()) {
+            $arrModels = $pdms ? $pdms->getModels() : [];
+            $formStorageData = FormStorageData::findBy('pid', $pid);
+            if ($formStorageData) {
+                while ($formStorageData->next()) {
+                    $objPersonalData = PersonalData::findOneByPidAndPTableAndEmail((int)$formStorageData->id, FormStorageData::getTable(), $email);
+                    if ($objPersonalData) {
+                        $arrModels[] = $objPersonalData;
                     }
                 }
-                $pdms = \count($arrModels) > 0 ? new \Contao\Model\Collection($arrModels, PersonalData::getTable()) : null;
-            break;
+            }
+            $pdms = \count($arrModels) > 0 ? new Collection($arrModels, PersonalData::getTable()) : null;
         }
 
         return $pdms;

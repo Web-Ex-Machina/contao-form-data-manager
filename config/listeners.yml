@@ -1,29 +1,29 @@
-wemformdatamanager.listener.personal_data_ui:
+wem.form_data_manager.listener.personal_data_ui:
   class: WEM\WEMFormDataManagerBundle\EventListener\PersonalDataManager\UiListener
   arguments:
     $translator: '@contao.translation.translator'
     $personalDataManagerUi: '@wem.personal_data_manager.service.personal_data_manager_ui'
   public: true
 
-wemformdatamanager.listener.personal_data_csv_formatter:
+wem.form_data_manager.listener.personal_data_csv_formatter:
   class: WEM\WEMFormDataManagerBundle\EventListener\PersonalDataManager\CsvFormatterListener
   arguments:
     $translator: '@contao.translation.translator'
   public: true
 
-wemformdatamanager.listener.personal_data_export:
+wem.form_data_manager.listener.personal_data_export:
   class: WEM\WEMFormDataManagerBundle\EventListener\PersonalDataManager\ExportListener
   arguments:
     $translator: '@contao.translation.translator'
   public: true
 
-wemformdatamanager.listener.personal_data_anonymize:
+wem.form_data_manager.listener.personal_data_anonymize:
   class: WEM\WEMFormDataManagerBundle\EventListener\PersonalDataManager\AnonymizeListener
   arguments:
     $translator: '@contao.translation.translator'
   public: true
 
-wemformdatamanager.listener.personal_data_manager:
+wem.form_data_manager.listener.personal_data_manager:
   class: WEM\WEMFormDataManagerBundle\EventListener\PersonalDataManager\ManagerListener
   arguments:
     $translator: '@contao.translation.translator'

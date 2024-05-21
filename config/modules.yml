@@ -1,10 +1,10 @@
 services:
-  wemformdatamanager.backend.module.form_data_manager.listener.process_form_data:
-    class: WEM\WEMFormDataManagerBundle\Backend\Module\FormDataManager\EventListener\ProcessFormDataListener
+  wem.form_data_manager.backend.module.form_data_manager.listener.process_form_data:
+    class: WEM\WEMFormDataManagerBundle\EventListener\ProcessFormDataListener
     arguments:
       $routingCandidates: '@contao.routing.candidates'
     public: true
 
-  wemformdatamanager.backend.module.form_data_manager.listener.compile_form_fields:
-    class: WEM\WEMFormDataManagerBundle\Backend\Module\FormDataManager\EventListener\CompileFormFieldsListener
+  wem.form_data_manager.backend.module.form_data_manager.listener.compile_form_fields:
+    class: WEM\WEMFormDataManagerBundle\EventListener\CompileFormFieldsListener
     public: true

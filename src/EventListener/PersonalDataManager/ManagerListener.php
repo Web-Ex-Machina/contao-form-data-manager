@@ -12,7 +12,7 @@ declare(strict_types=1);
  * @link     https://github.com/Web-Ex-Machina/wem-contao-form-data-manager/
  */
 
-namespace WEM\WEMFormDataManagerBundle\Backend\Module\FormDataManager\EventListener\PersonalDataManager;
+namespace WEM\WEMFormDataManagerBundle\EventListener\PersonalDataManager;
 
 use Contao\FilesModel;
 use Contao\Validator;

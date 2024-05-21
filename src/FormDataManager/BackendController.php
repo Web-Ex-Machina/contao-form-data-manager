@@ -12,7 +12,7 @@ declare(strict_types=1);
  * @link     https://github.com/Web-Ex-Machina/wem-contao-form-data-manager/
  */
 
-namespace WEM\WEMFormDataManagerBundle\Backend\Module\FormDataManager;
+namespace WEM\WEMFormDataManagerBundle\FormDataManager;
 
 use Contao\Config;
 use Contao\CoreBundle\Controller\BackendController as ControllerBackendController;

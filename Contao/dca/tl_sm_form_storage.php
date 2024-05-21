@@ -31,7 +31,7 @@ $GLOBALS['TL_DCA']['tl_sm_form_storage'] = [
                 'pid' => 'index',
             ],
         ],
-        'onshow_callback' => [['wemformdatamanager.data_container.form_storage', 'onShowCallback']],
+        'onshow_callback' => [['wem.form_data_manager.data_container.form_storage', 'onShowCallback']],
     ],
 
     // List
@@ -45,7 +45,7 @@ $GLOBALS['TL_DCA']['tl_sm_form_storage'] = [
         'label' => [
             'fields' => ['pid', 'createdAt', 'status', 'sender'],
             'showColumns' => true,
-            'label_callback' => ['wemformdatamanager.data_container.form_storage', 'listItems'],
+            'label_callback' => ['wem.form_data_manager.data_container.form_storage', 'listItems'],
         ],
         'global_operations' => [
             'all' => [
@@ -186,7 +186,7 @@ $GLOBALS['TL_DCA']['tl_sm_form_storage'] = [
         'form_storage_data' => [
             'search' => false,
             'exclude' => true,
-            'input_field_callback' => ['wemformdatamanager.data_container.form_storage', 'showData'],
+            'input_field_callback' => ['wem.form_data_manager.data_container.form_storage', 'showData'],
         ],
         'sender' => [
             'search' => true,

@@ -22,9 +22,9 @@ use Contao\Input;
 use Exception;
 use tl_form;
 use WEM\WEMFormDataManagerBundle\Classes\FormUtil;
-use WEM\WEMFormDataManagerBundle\Exceptions\Module\FormDataManager\EmailFieldNotMandatoryInForm;
-use WEM\WEMFormDataManagerBundle\Exceptions\Module\FormDataManager\FormNotConfiguredToStoreValues;
-use WEM\WEMFormDataManagerBundle\Exceptions\Module\FormDataManager\NoEmailFieldInForm;
+use WEM\WEMFormDataManagerBundle\EmailFieldNotMandatoryInForm;
+use WEM\WEMFormDataManagerBundle\FormNotConfiguredToStoreValues;
+use WEM\WEMFormDataManagerBundle\NoEmailFieldInForm;
 use WEM\WEMFormDataManagerBundle\Model\FormField;
 
 // class Form extends \tl_form
@@ -96,7 +96,7 @@ class Form extends Backend
     /**
      * Return the delete form button.
      *
-     * @param array  $row
+     * @param array $row
      * @param string $href
      * @param string $label
      * @param string $title
@@ -105,7 +105,7 @@ class Form extends Backend
      *
      * @return string
      */
-    public function deleteItem($row, $href, $label, $title, $icon, $attributes)
+    public function deleteItem(array $row, string $href, string $label, string $title, string $icon, string $attributes): string
     {
         if ($this->isItemUsedBySmartgear((int) $row['id'])) {
             return Image::getHtml(preg_replace('/\.svg$/i', '_.svg', $icon)).' ';

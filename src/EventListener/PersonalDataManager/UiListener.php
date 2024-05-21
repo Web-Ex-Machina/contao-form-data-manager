@@ -12,7 +12,7 @@ declare(strict_types=1);
  * @link     https://github.com/Web-Ex-Machina/wem-contao-form-data-manager/
  */
 
-namespace WEM\WEMFormDataManagerBundle\Backend\Module\FormDataManager\EventListener\PersonalDataManager;
+namespace WEM\WEMFormDataManagerBundle\EventListener\PersonalDataManager;
 
 use Contao\Config;
 use Contao\Date;
@@ -28,7 +28,6 @@ use WEM\PersonalDataManagerBundle\Model\PersonalData;
 use WEM\PersonalDataManagerBundle\Service\PersonalDataManagerUi;
 use WEM\UtilsBundle\Classes\Files as FileUtil;
 use WEM\UtilsBundle\Classes\StringUtil;
-use WEM\WEMFormDataManagerBundle\Model\Form;
 use WEM\WEMFormDataManagerBundle\Model\FormStorage;
 use WEM\WEMFormDataManagerBundle\Model\FormStorageData;
 

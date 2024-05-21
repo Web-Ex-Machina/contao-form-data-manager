@@ -19,9 +19,9 @@ use Contao\FormModel;
 use Contao\Model;
 use Contao\PageModel;
 use Exception;
-use WEM\WEMFormDataManagerBundle\Exceptions\Module\FormDataManager\EmailFieldNotMandatoryInForm;
-use WEM\WEMFormDataManagerBundle\Exceptions\Module\FormDataManager\FormNotConfiguredToStoreValues;
-use WEM\WEMFormDataManagerBundle\Exceptions\Module\FormDataManager\NoEmailFieldInForm;
+use WEM\WEMFormDataManagerBundle\EmailFieldNotMandatoryInForm;
+use WEM\WEMFormDataManagerBundle\FormNotConfiguredToStoreValues;
+use WEM\WEMFormDataManagerBundle\NoEmailFieldInForm;
 use WEM\WEMFormDataManagerBundle\Model\FormField;
 
 class FormUtil
