@@ -1,6 +1,6 @@
 <?php
 
-namespace Wem\ContaoFormDataManagerBundle\DependencyInjection;
+namespace WEM\ContaoFormDataManagerBundle\DependencyInjection;
 
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\DependencyInjection\ContainerBuilder;

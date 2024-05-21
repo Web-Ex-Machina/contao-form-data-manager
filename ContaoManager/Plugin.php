@@ -1,6 +1,6 @@
 <?php
 
-namespace Wem\ContaoFormDataManagerBundle\ContaoManager;
+namespace WEM\ContaoFormDataManagerBundle\ContaoManager;
 
 use Contao\ManagerPlugin\Routing\RoutingPluginInterface;
 use Symfony\Component\Config\Loader\LoaderResolverInterface;
