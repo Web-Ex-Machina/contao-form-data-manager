@@ -1,5 +1,5 @@
 {
-    "name": "wem/contao-form-data-manager",
+    "name": "webexmachina/contao-form-data-manager",
     "description": "Bundle for manage the form data",
     "type": "contao-bundle",
     "require": {
