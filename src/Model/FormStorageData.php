@@ -16,6 +16,8 @@ namespace WEM\WEMFormDataManagerBundle\Model;
 
 use Contao\Database;
 use Contao\FilesModel;
+use Contao\Model\Collection;
+use Contao\System;
 use Contao\Validator;
 use Exception;
 use WEM\PersonalDataManagerBundle\Model\Traits\PersonalDataTrait as PDMTrait;
@@ -30,20 +32,27 @@ class FormStorageData extends CoreModel
     use PDMTrait;
 
     public const NO_FILE_UPLOADED = 'no_file_uploaded';
+
     public const FILE_UPLOADED_BUT_NOT_STORED = 'file_uploaded_but_not_stored';
 
     protected static array $personalDataFieldsNames = [
         'value',
     ];
+
     protected static array $personalDataFieldsDefaultValues = [
         'value' => 'managed_by_pdm',
     ];
+
     protected static array $personalDataFieldsAnonymizedValues = [
         'value' => 'anonymized',
     ];
+
     protected static string $personalDataPidField = 'id';
+
     protected static string $personalDataEmailField = 'email';
+
     protected static string $personalDataPtable = 'tl_sm_form_storage_data';
+
     /**
      * Table name.
      *
@@ -57,8 +66,9 @@ class FormStorageData extends CoreModel
         if ($objFS && !empty($objFS->sender)) {
             return $objFS->sender;
         }
+
         $objFDS = self::findItems(['pid' => $this->pid, 'field_name' => 'email'], 1);
-        if (!$objFDS) {
+        if (!$objFDS instanceof Collection) {
             throw new Exception('Unable to find the email field');
         }
 
@@ -95,14 +105,12 @@ class FormStorageData extends CoreModel
                         if (Validator::isStringUuid($value)) {
                             // we should have an UUID here
                             $objFile = FilesModel::findByUuid($value);
-                            if (!$objFile) {
-                                $value = $GLOBALS['TL_LANG']['WEMSG']['FDM']['ERROR']['uploadedFileNotFound'];
-                            } else {
-                                $value = $objFile->path;
-                            }
+                            $value = $objFile ? $objFile->path : $GLOBALS['TL_LANG']['WEMSG']['FDM']['ERROR']['uploadedFileNotFound'];
                         }
+
                         break;
                 }
+
                 break;
         }
 
@@ -112,9 +120,9 @@ class FormStorageData extends CoreModel
     public static function deleteAll(): void
     {
         $objStatement = Database::getInstance()->prepare(sprintf('DELETE FROM %s', self::getTable()));
-        $objResult = $objStatement->execute();
+        $objStatement->execute();
 
-        $manager = \Contao\System::getContainer()->get('wem.personal_data_manager.service.personal_data_manager');
+        $manager = System::getContainer()->get('wem.personal_data_manager.service.personal_data_manager');
         $manager->deleteByPtable(self::getTable());
     }
 }

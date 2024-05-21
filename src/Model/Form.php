@@ -27,10 +27,9 @@ class Form extends CoreModel
      * @var string
      */
     protected static $strTable = 'tl_form';
+
     /**
      * Default order column.
-     *
-     * @var string
      */
     protected static string $strOrderColumn = 'tstamp DESC';
 
