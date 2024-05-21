@@ -13,7 +13,7 @@ declare(strict_types=1);
  */
 
 use Contao\DataContainer;
-use WEM\WEMFormDataManagerBundle\Classes\Util;
+use WEM\UtilsBundle\Classes\DateUtil;
 use WEM\WEMFormDataManagerBundle\Model\FormStorage;
 
 $GLOBALS['TL_DCA']['tl_sm_form_storage'] = [
@@ -143,7 +143,7 @@ $GLOBALS['TL_DCA']['tl_sm_form_storage'] = [
             'inputType' => 'text',
             'eval' => ['mandatory' => true, 'rgxp' => 'custom', 'customRgxp' => '/^([0-9]{1,14})$/', 'tl_class' => 'w50', 'disabled' => true, 'minval' => 0],
             'load_callback' => [function ($value, $dc): string {
-                return Util::humanReadableDuration($value);
+                return DateUtil::humanReadableDuration($value);
             }],
             'sql' => "varchar(14) NOT NULL default ''",
         ],
@@ -151,7 +151,7 @@ $GLOBALS['TL_DCA']['tl_sm_form_storage'] = [
             'inputType' => 'text',
             'eval' => ['mandatory' => true, 'rgxp' => 'custom', 'customRgxp' => '/^([0-9]{1,14})$/', 'tl_class' => 'w50 clr', 'disabled' => true, 'minval' => 0],
             'load_callback' => [function ($value, $dc): string {
-                return Util::humanReadableDuration($value);
+                return DateUtil::humanReadableDuration($value);
             }],
             'sql' => "varchar(14) NOT NULL default ''",
         ],

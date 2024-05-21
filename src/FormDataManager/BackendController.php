@@ -27,9 +27,9 @@ use WEM\UtilsBundle\Classes\StringUtil;
 
 class BackendController extends ControllerBackendController
 {
-    protected $module;
-    protected $type;
-    protected $translator;
+    protected string $module;
+    protected string $type;
+    protected TranslatorInterface $translator;
 
 
     public function __construct(
@@ -176,7 +176,7 @@ class BackendController extends ControllerBackendController
 
         foreach ($headers as $key => $value) {
             if (!\in_array($key, $headersKeyToKeep, true)) {
-                $headers[$key] = $this->translator->trans('WEMSG.FDM.EXPORT.fieldNotPresentInForm', [], 'contao_default');
+                $headers[$key] = $this->translator->trans('WEM.FDM.EXPORT.fieldNotPresentInForm', [], 'contao_default');
             }
         }
 

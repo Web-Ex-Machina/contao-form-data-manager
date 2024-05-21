@@ -1,6 +1,5 @@
 <?php
 
-use WEM\WEMFormDataManagerBundle\Model;
 use Contao\ArrayUtil;
 
 ArrayUtil::arrayInsert(

@@ -14,26 +14,26 @@ declare(strict_types=1);
 
 use Contao\CoreBundle\DataContainer\PaletteManipulator;
 use Contao\DcaLoader;
-use WEM\WEMFormDataManagerBundle\Classes\Dca\Manipulator as DCAManipulator;
-
+//use WEM\WEMFormDataManagerBundle\Classes\Dca\Manipulator as DCAManipulator;
+// TODO : reprendre ce que fait le manipulator
 (new DcaLoader('tl_form'))->load();
 
-DCAManipulator::create('tl_form')
-    ->addListOperation('contacts', [
-        'href' => 'table=tl_sm_form_storage',
-        'icon' => 'user.svg',
-    ])
-    ->addCtable('tl_sm_form_storage')
-    ->addConfigOnsubmitCallback('wemformdatamanager.data_container.form', 'onSubmitCallback')
-    ->setListLabelFields(['title', 'submissions'])
-    ->setListLabelShowColumns(true)
-    ->addListLabelLabelCallback('wemformdatamanager.data_container.form', 'listItems')
-    ->addField('storeViaFormDataManager', [
-        'inputType' => 'checkbox',
-        'sql' => "char(1) NOT NULL default ''",
-    ])
-    ->addField('submissions', []) // to have translations in tl_form list column label
-;
+//DCAManipulator::create('tl_form')
+//    ->addListOperation('contacts', [
+//        'href' => 'table=tl_sm_form_storage',
+//        'icon' => 'user.svg',
+//    ])
+//    ->addCtable('tl_sm_form_storage')
+//    ->addConfigOnsubmitCallback('wemformdatamanager.data_container.form', 'onSubmitCallback')
+//    ->setListLabelFields(['title', 'submissions'])
+//    ->setListLabelShowColumns(true)
+//    ->addListLabelLabelCallback('wemformdatamanager.data_container.form', 'listItems')
+//    ->addField('storeViaFormDataManager', [
+//        'inputType' => 'checkbox',
+//        'sql' => "char(1) NOT NULL default ''",
+//    ])
+//    ->addField('submissions', []) // to have translations in tl_form list column label
+//;
 
 PaletteManipulator::create()
     ->addField('storeViaFormDataManager', 'storeValues', PaletteManipulator::POSITION_BEFORE)

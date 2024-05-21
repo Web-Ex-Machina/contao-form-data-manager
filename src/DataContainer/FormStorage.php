@@ -28,8 +28,7 @@ use WEM\WEMFormDataManagerBundle\Model\FormStorageData;
 
 class FormStorage
 {
-    /** @var TranslatorInterface */
-    private $translator;
+    private TranslatorInterface $translator;
 
     public function __construct(TranslatorInterface $translator)
     {
@@ -72,9 +71,9 @@ class FormStorage
     public function onShowCallback(array $modalData, array $recordData, DataContainer $dc): array
     {
         $key = sprintf('%s <small>%s</small>', $GLOBALS['TL_LANG'][ModelFormStorage::getTable()]['delay_to_submission'][0], 'delay_to_submission');
-        $modalData[ModelFormStorage::getTable()][0][$key] = Util::humanReadableDuration((int) $recordData['delay_to_submission']);
+        $modalData[ModelFormStorage::getTable()][0][$key] = DateUtil::humanReadableDuration((int) $recordData['delay_to_submission']);
         $key = sprintf('%s <small>%s</small>', $GLOBALS['TL_LANG'][ModelFormStorage::getTable()]['delay_to_first_interaction'][0], 'delay_to_first_interaction');
-        $modalData[ModelFormStorage::getTable()][0][$key] = Util::humanReadableDuration((int) $recordData['delay_to_first_interaction']);
+        $modalData[ModelFormStorage::getTable()][0][$key] = DateUtil::humanReadableDuration((int) $recordData['delay_to_first_interaction']);
         $key = sprintf('%s <small>%s</small>', $GLOBALS['TL_LANG'][ModelFormStorage::getTable()]['completion_percentage'][0], 'completion_percentage');
         $modalData[ModelFormStorage::getTable()][0][$key] = $recordData['completion_percentage'].'%';
 
