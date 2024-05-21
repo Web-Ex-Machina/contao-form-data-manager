@@ -33,10 +33,10 @@ use WEM\WEMFormDataManagerBundle\Model\FormStorageData;
 
 class UiListener
 {
-    /** @var TranslatorInterface */
-    protected $translator;
-    /** @var PersonalDataManagerUi */
-    protected $personalDataManagerUi;
+
+    protected TranslatorInterface $translator;
+
+    protected PersonalDataManagerUi $personalDataManagerUi;
 
     public function __construct(
         TranslatorInterface $translator,
@@ -45,8 +45,8 @@ class UiListener
         $this->translator = $translator;
         $this->personalDataManagerUi = $personalDataManagerUi;
 
-        $GLOBALS['TL_CSS'][] = 'bundles/wemformdatamanager/css/module/personaldatamanager/frontend.css';
-        $GLOBALS['TL_JAVASCRIPT'][] = 'bundles/wemformdatamanager/js/module/personaldatamanager/frontend.js';
+        $GLOBALS['TL_CSS'][] = 'bundles/wemformdatamanager/css/frontend.css';
+        $GLOBALS['TL_JAVASCRIPT'][] = 'bundles/wemformdatamanager/js/personaldatamanager/frontend.js';
     }
 
     public function sortData(array $sorted, ?Collection $personalDatas): array
@@ -54,28 +54,26 @@ class UiListener
         $sorted2 = $sorted;
 
         foreach ($sorted as $ptable => $ptableDatas) {
-            switch ($ptable) {
-                case FormStorageData::getTable():
-                    foreach ($ptableDatas as $id => $idDatas) {
-                        $objFormStorageData = FormStorageData::findOneBy('id', $idDatas['personalDatas'][0]->pid);
-                        /** @var FormStorage */
-                        $objFormStorage = $objFormStorageData->getRelated('pid');
+            if ($ptable == FormStorageData::getTable()) {
+                foreach ($ptableDatas as $id => $idDatas) {
+                    $objFormStorageData = FormStorageData::findOneBy('id', $idDatas['personalDatas'][0]->pid);
+                    /** @var FormStorage */
+                    $objFormStorage = $objFormStorageData->getRelated('pid');
 
-                        if (!\array_key_exists(FormStorage::getTable(), $sorted2)) {
-                            $sorted2[FormStorage::getTable()] = [];
-                        }
-
-                        if (!\array_key_exists($objFormStorage->id, $sorted2[FormStorage::getTable()])) {
-                            $arrPersonalDatas = $this->getPersonalDataForFormStorage($objFormStorage);
-                            $sorted2[FormStorage::getTable()][$objFormStorage->id] = [
-                                'originalModel' => $arrPersonalDatas[0],
-                                'personalDatas' => $arrPersonalDatas[1],
-                            ];
-                        }
-
-                        unset($sorted2[$ptable][$id]);
+                    if (!\array_key_exists(FormStorage::getTable(), $sorted2)) {
+                        $sorted2[FormStorage::getTable()] = [];
                     }
-                    break;
+
+                    if (!\array_key_exists($objFormStorage->id, $sorted2[FormStorage::getTable()])) {
+                        $arrPersonalDatas = $this->getPersonalDataForFormStorage($objFormStorage);
+                        $sorted2[FormStorage::getTable()][$objFormStorage->id] = [
+                            'originalModel' => $arrPersonalDatas[0],
+                            'personalDatas' => $arrPersonalDatas[1],
+                        ];
+                    }
+
+                    unset($sorted2[$ptable][$id]);
+                }
             }
         }
 
@@ -251,10 +249,8 @@ class UiListener
 
     public function renderSingleItemBodyPersonalDataSingle(int $pid, string $ptable, string $email, PersonalData $personalData, array $personalDatas, Model $originalModel, string $buffer): string
     {
-        switch ($ptable) {
-            case FormStorage::getTable():
-                $buffer = $this->personalDataManagerUi->formatSingleItemBodyPersonalDataSingle((int) $personalData->pid, $personalData->ptable, $email, $personalData, $personalDatas, $originalModel);
-                break;
+        if ($ptable == FormStorage::getTable()) {
+            $buffer = $this->personalDataManagerUi->formatSingleItemBodyPersonalDataSingle((int)$personalData->pid, $personalData->ptable, $email, $personalData, $personalDatas, $originalModel);
         }
 
         return $buffer;
@@ -262,16 +258,7 @@ class UiListener
 
     public function buildSingleItemBodyPersonalDataSingleButtons(int $pid, string $ptable, string $email, PersonalData $personalData, array $personalDatas, Model $originalModel, ?File $file, array $buttons): array
     {
-        // switch ($ptable) {
-        //     case FormStorageData::getTable():
-        //         $objFormStorageData = FormStorageData::findByPk($pid);
-        //         if ($objFormStorageData) {
-        //             switch ($objFormStorageData->field_type) {
-        //                 case 'upload':
-        //                     if (Validator::isStringUuid($objFormStorageData->value)) {
-        //                         $objFileModel = FilesModel::findByUuid($objFormStorageData->value);
-        //                         if ($objFileModel) {
-        //                             $objFile = new File($objFileModel->path);
+
         if ($file) {
             if (FileUtil::isDisplayableInBrowser($file)) {
                 $buttons['show'] = sprintf('<br /><a href="%s" class="pdm-button pdm-button_show_file pdm-item__personal_data_single__button_show_file" target="_blank" data-path="%s">%s</a>',
@@ -286,14 +273,7 @@ class UiListener
                 $this->translator->trans('WEM.FDM.PDMUI.buttonDownloadFile', [], 'contao_default')
             );
         }
-        //                         }
-        //                     }
-        //                 break;
-        //             }
-        //         }
 
-        //     break;
-        // }
 
         return $buttons;
     }
