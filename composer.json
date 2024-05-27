@@ -34,7 +34,7 @@
     },
     "autoload": {
         "psr-4": {
-            "Wem\\ContaoFormDataManagerBundle\\": "src/"
+            "WEM\\ContaoFormDataManagerBundle\\": "src/"
         },
         "classmap": [
             "src/Resources/contao/"
@@ -48,7 +48,7 @@
     },
     "autoload-dev": {
         "psr-4": {
-            "Wem\\ContaoFormDataManagerBundle\\Tests\\": "tests/"
+            "WEM\\ContaoFormDataManagerBundle\\Tests\\": "tests/"
         }
     },
     "extra":
