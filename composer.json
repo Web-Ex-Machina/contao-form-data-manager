@@ -35,8 +35,8 @@
     "minimum-stability": "stable",
     "support":
     {
-        "issues": "https://github.com/webexmachina/wem-contao-form-data/issues",
-        "source": "https://github.com/webexmachina/wem-contao-form-data"
+        "issues": "https://github.com/Web-Ex-Machina/contao-form-data-manager/issues",
+        "source": "https://github.com/Web-Ex-Machina/contao-form-data-manager"
     },
     "extra":
     {
