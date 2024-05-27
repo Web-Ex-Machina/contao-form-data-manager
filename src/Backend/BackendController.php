@@ -27,20 +27,13 @@ use WEM\UtilsBundle\Classes\StringUtil;
 
 class BackendController extends ControllerBackendController
 {
-    protected string $module;
-
-    protected string $type;
 
     protected TranslatorInterface $translator;
 
 
     public function __construct(
-        string $module,
-        string $type,
         TranslatorInterface $translator
     ) {
-        $this->module = $module;
-        $this->type = $type;
         $this->translator = $translator;
         System::loadLanguageFile(FormStorage::getTable());
         System::loadLanguageFile(FormStorageData::getTable());
