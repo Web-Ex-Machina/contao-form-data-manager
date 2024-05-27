@@ -142,13 +142,13 @@ $GLOBALS['TL_DCA']['tl_sm_form_storage'] = [
         'delay_to_first_interaction' => [
             'inputType' => 'text',
             'eval' => ['mandatory' => true, 'rgxp' => 'custom', 'customRgxp' => '/^(\d{1,14})$/', 'tl_class' => 'w50', 'disabled' => true, 'minval' => 0],
-            'load_callback' => [static fn($value, $dc): string => DateUtil::humanReadableDuration($value)],
+            'load_callback' => [static fn($value, $dc): string => DateUtil::humanReadableDuration((int) $value)],
             'sql' => "varchar(14) NOT NULL default ''",
         ],
         'delay_to_submission' => [
             'inputType' => 'text',
             'eval' => ['mandatory' => true, 'rgxp' => 'custom', 'customRgxp' => '/^(\d{1,14})$/', 'tl_class' => 'w50 clr', 'disabled' => true, 'minval' => 0],
-            'load_callback' => [static fn($value, $dc): string => DateUtil::humanReadableDuration($value)],
+            'load_callback' => [static fn($value, $dc): string => DateUtil::humanReadableDuration((int) $value)],
             'sql' => "varchar(14) NOT NULL default ''",
         ],
         'current_page' => [
