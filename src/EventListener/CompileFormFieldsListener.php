@@ -30,6 +30,15 @@ class CompileFormFieldsListener
         $this->listeners = $listeners;
     }
 
+    /**
+     * Sets the fdm_formdatamanager javascript file for the given form.
+     *
+     * @param array $arrFields The array fields for the form.
+     * @param string $formId The ID of the form.
+     * @param Form $form The form object.
+     *
+     * @return void
+     */
     public function __invoke(
         array $arrFields,
         string $formId,

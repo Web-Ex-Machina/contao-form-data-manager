@@ -31,6 +31,17 @@ class AnonymizeListener
         $this->translator = $translator;
     }
 
+    /**
+     * Anonymizes personal data by pid, ptable, and email.
+     *
+     * @param int $pid The pid.
+     * @param string $ptable The ptable.
+     * @param string $email The email.
+     * @param Collection|null $pdms The collection of personal data models.
+     *
+     * @return Collection|null The collection of anonymized personal data models.
+     * @throws \Exception
+     */
     public function anonymizeByPidAndPtableAndEmail(int $pid, string $ptable, string $email, ?Collection $pdms): ?Collection
     {
         if ($ptable == FormStorage::getTable()) {

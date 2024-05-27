@@ -15,6 +15,12 @@ class WEMFormDataManagerBundle extends Bundle
         return \dirname(__DIR__);
     }
 
+    /**
+     * Retrieve the container extension for this Symfony Bundle.
+     * Needed because the non standard naming
+     *
+     * @return WEMFormDataManagerExtension|null The container extension object or null if not available.
+     */
     public function getContainerExtension(): ?ExtensionInterface
     {
         return new WEMFormDataManagerExtension();
