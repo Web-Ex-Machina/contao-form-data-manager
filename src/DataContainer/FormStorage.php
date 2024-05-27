@@ -53,7 +53,7 @@ class FormStorage
         System::loadLanguageFile('tl_sm_form_storage_data');
         $formStorageDatas = FormStorageData::findItems(['pid' => $dc->id]);
         $arrFormStorageDatas = [];
-        $objTemplate = new BackendTemplate('be_wem_sg_widget_fdm_form_storage_data');
+        $objTemplate = new BackendTemplate('be_wem_form_storage_data');
 
         if ($formStorageDatas) {
             while ($formStorageDatas->next()) {
