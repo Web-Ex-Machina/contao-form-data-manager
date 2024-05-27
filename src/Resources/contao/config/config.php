@@ -8,13 +8,13 @@ ArrayUtil::arrayInsert(
     [
         'wem_fdm_form_data_manager' => [
             'tables' => ['tl_sm_form_storage', 'tl_sm_form_storage_data'],
-            'export_all' => ['wem.form_data_manager.backend.module.form_data_manager.backend_controller', 'exportAll'],
-            'export' => ['wem.form_data_manager.backend.module.form_data_manager.backend_controller', 'exportSingle'],
+            'export_all' => ['wem.form_data_manager.backend.backend_controller', 'exportAll'],
+            'export' => ['wem.form_data_manager.backend.backend_controller', 'exportSingle'],
         ],
     ]
 );
-$GLOBALS['BE_MOD']['content']['form']['export_all'] = ['wem.form_data_manager.backend.module.form_data_manager.backend_controller', 'exportAllFromForm'];
-$GLOBALS['BE_MOD']['content']['form']['export'] = ['wem.form_data_manager.backend.module.form_data_manager.backend_controller', 'exportSingle'];
+$GLOBALS['BE_MOD']['content']['form']['export_all'] = ['wem.form_data_manager.backend.backend_controller', 'exportAllFromForm'];
+$GLOBALS['BE_MOD']['content']['form']['export'] = ['wem.form_data_manager.backend.backend_controller', 'exportSingle'];
 
 $GLOBALS['TL_HOOKS']['processFormData'][] = ['wem.form_data_manager.listener.process_form_data', '__invoke'];
 $GLOBALS['TL_HOOKS']['compileFormFields'][] = ['wem.form_data_manager.listener.compile_form_fields', '__invoke'];
