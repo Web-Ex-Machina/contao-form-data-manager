@@ -41,6 +41,11 @@ class Form extends Backend
         $this->parent = new tl_form();
     }
 
+    public function listItems(array $labels): array
+    {
+        $labels[1] = '0';
+        return $labels;
+    }
 
     public function onSubmitCallback(DataContainer $dc): void
     {
