@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "5b22d1836a215059139826cb8495a7b7",
+    "content-hash": "c168d165bc296d5ca30337d368cb86e2",
     "packages": [
         {
             "name": "ausi/slug-generator",
@@ -12021,16 +12021,16 @@
         },
         {
             "name": "twig/twig",
-            "version": "v3.10.2",
+            "version": "v3.10.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/twigphp/Twig.git",
-                "reference": "7aaed0b8311a557cc8c4047a71fd03153a00e755"
+                "reference": "67f29781ffafa520b0bbfbd8384674b42db04572"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/twigphp/Twig/zipball/7aaed0b8311a557cc8c4047a71fd03153a00e755",
-                "reference": "7aaed0b8311a557cc8c4047a71fd03153a00e755",
+                "url": "https://api.github.com/repos/twigphp/Twig/zipball/67f29781ffafa520b0bbfbd8384674b42db04572",
+                "reference": "67f29781ffafa520b0bbfbd8384674b42db04572",
                 "shasum": ""
             },
             "require": {
@@ -12084,7 +12084,7 @@
             ],
             "support": {
                 "issues": "https://github.com/twigphp/Twig/issues",
-                "source": "https://github.com/twigphp/Twig/tree/v3.10.2"
+                "source": "https://github.com/twigphp/Twig/tree/v3.10.3"
             },
             "funding": [
                 {
@@ -12096,7 +12096,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2024-05-14T06:04:16+00:00"
+            "time": "2024-05-16T10:04:27+00:00"
         },
         {
             "name": "ua-parser/uap-php",
@@ -12162,22 +12162,93 @@
             "time": "2020-10-02T23:36:20+00:00"
         },
         {
+            "name": "webexmachina/contao-personal-data-manager",
+            "version": "dev-php-8-2-preparation",
+            "dist": {
+                "type": "path",
+                "url": "/home/stephane/PhpstormProjects/contao-personal-data-manager",
+                "reference": "c4d54674016881d535098e989fc60c00c6e2c9a7"
+            },
+            "require": {
+                "contao/core-bundle": "^4.13 || ^5.0",
+                "ext-json": "*",
+                "ext-zip": "*",
+                "php": "^7.4 || ^8.2",
+                "webexmachina/contao-utils": "^1.0 || dev-php-8-2-preparation"
+            },
+            "conflict": {
+                "contao/manager-plugin": "<2.0 || >=3.0"
+            },
+            "require-dev": {
+                "codeception/codeception": "^4",
+                "codeception/module-asserts": "^1.0.0",
+                "codeception/module-phpbrowser": "^1.0.0",
+                "codeception/module-webdriver": "^2.0",
+                "contao/manager-plugin": "^2.0",
+                "contao/test-case": "~4",
+                "phpunit/phpunit": "^9.0",
+                "rector/rector": "^1.0"
+            },
+            "type": "contao-bundle",
+            "extra": {
+                "contao-manager-plugin": "WEM\\PersonalDataManagerBundle\\ContaoManager\\Plugin"
+            },
+            "autoload": {
+                "psr-4": {
+                    "WEM\\PersonalDataManagerBundle\\": "src/"
+                },
+                "classmap": [
+                    "src/Resources/contao/"
+                ],
+                "exclude-from-classmap": [
+                    "src/Resources/contao/config/",
+                    "src/Resources/contao/dca/",
+                    "src/Resources/contao/languages/",
+                    "src/Resources/contao/templates/"
+                ]
+            },
+            "license": [
+                "LGPL-3.0-or-later"
+            ],
+            "authors": [
+                {
+                    "name": "Web ex Machina",
+                    "homepage": "https://www.webexmachina.fr",
+                    "role": "Developer"
+                }
+            ],
+            "description": "Personal Data Manager bundle for Contao Open Source CMS",
+            "homepage": "https://www.webexmachina.fr/",
+            "keywords": [
+                "bundle",
+                "contao",
+                "gpdr",
+                "personal",
+                "rgpd",
+                "webexmachina"
+            ],
+            "support": {
+                "issues": "https://github.com/webexmachina/contao-personal-data-manager/issues",
+                "source": "https://github.com/webexmachina/contao-personal-data-manager"
+            },
+            "transport-options": {
+                "relative": false
+            }
+        },
+        {
             "name": "webexmachina/contao-utils",
             "version": "dev-php-8-2-preparation",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/Web-Ex-Machina/contao-utils.git",
-                "reference": "946280aeb9db87845c465f0f37c0442c3b8c9921"
-            },
             "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/Web-Ex-Machina/contao-utils/zipball/946280aeb9db87845c465f0f37c0442c3b8c9921",
-                "reference": "946280aeb9db87845c465f0f37c0442c3b8c9921",
-                "shasum": ""
+                "type": "path",
+                "url": "/home/stephane/PhpstormProjects/contao-utils",
+                "reference": "665bdafe17cf2916382637240a337f842234181e"
             },
             "require": {
                 "codefog/contao-haste": "^4.24 || ^5.0",
                 "contao/core-bundle": "^4.9 || ^5.0",
+                "ext-curl": "*",
+                "ext-intl": "*",
+                "ext-json": "*",
                 "php": "^7.4 || ^8.0",
                 "phpseclib/phpseclib": "^3.0"
             },
@@ -12194,7 +12265,6 @@
                     "WEM\\UtilsBundle\\": "src/"
                 }
             },
-            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "LGPL-3.0+"
             ],
@@ -12218,7 +12288,9 @@
                 "issues": "https://github.com/web-ex-machina/contao-utils/issues",
                 "source": "https://github.com/web-ex-machina/contao-utils"
             },
-            "time": "2024-05-15T08:08:12+00:00"
+            "transport-options": {
+                "relative": false
+            }
         },
         {
             "name": "webignition/disallowed-character-terminated-string",
@@ -12596,21 +12668,21 @@
         },
         {
             "name": "rector/rector",
-            "version": "1.0.5",
+            "version": "1.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/rectorphp/rector.git",
-                "reference": "73eb63e4f9011dba6b7c66c3262543014e352f34"
+                "reference": "556509e2dcf527369892b7d411379c4a02f31859"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/rectorphp/rector/zipball/73eb63e4f9011dba6b7c66c3262543014e352f34",
-                "reference": "73eb63e4f9011dba6b7c66c3262543014e352f34",
+                "url": "https://api.github.com/repos/rectorphp/rector/zipball/556509e2dcf527369892b7d411379c4a02f31859",
+                "reference": "556509e2dcf527369892b7d411379c4a02f31859",
                 "shasum": ""
             },
             "require": {
                 "php": "^7.2|^8.0",
-                "phpstan/phpstan": "^1.10.57"
+                "phpstan/phpstan": "^1.11"
             },
             "conflict": {
                 "rector/rector-doctrine": "*",
@@ -12643,7 +12715,7 @@
             ],
             "support": {
                 "issues": "https://github.com/rectorphp/rector/issues",
-                "source": "https://github.com/rectorphp/rector/tree/1.0.5"
+                "source": "https://github.com/rectorphp/rector/tree/1.1.0"
             },
             "funding": [
                 {
@@ -12651,7 +12723,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2024-05-10T05:31:15+00:00"
+            "time": "2024-05-18T09:40:27+00:00"
         },
         {
             "name": "symfony/maker-bundle",
@@ -12749,7 +12821,8 @@
     "aliases": [],
     "minimum-stability": "stable",
     "stability-flags": {
-        "webexmachina/contao-utils": 20
+        "webexmachina/contao-utils": 20,
+        "webexmachina/contao-personal-data-manager": 20
     },
     "prefer-stable": false,
     "prefer-lowest": false,
