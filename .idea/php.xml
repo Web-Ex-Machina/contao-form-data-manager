@@ -191,6 +191,7 @@
       <path value="$PROJECT_DIR$/vendor/imagine/imagine" />
       <path value="$PROJECT_DIR$/vendor/contao/manager-plugin" />
       <path value="$PROJECT_DIR$/vendor/webexmachina/contao-utils" />
+      <path value="$PROJECT_DIR$/vendor/webexmachina/contao-personal-data-manager" />
     </include_path>
   </component>
   <component name="PhpProjectSharedConfiguration" php_language_level="7.4" />
