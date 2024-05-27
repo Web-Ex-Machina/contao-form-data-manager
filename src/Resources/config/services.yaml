@@ -68,7 +68,5 @@ services:
   wem.form_data_manager.backend.backend_controller:
       class: WEM\ContaoFormDataManagerBundle\Backend\BackendController
       arguments:
-        $module: 'form_data_manager'
-        $type: 'module'
         $translator: '@contao.translation.translator'
       public: true
