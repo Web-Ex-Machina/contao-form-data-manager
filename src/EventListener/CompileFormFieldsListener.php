@@ -12,7 +12,7 @@ declare(strict_types=1);
  * @link     https://github.com/Web-Ex-Machina/wem-contao-form-data-manager/
  */
 
-namespace WEM\WEMFormDataManagerBundle\EventListener;
+namespace WEM\ContaoFormDataManagerBundle\EventListener;
 
 use Contao\Form;
 
@@ -44,7 +44,7 @@ class CompileFormFieldsListener
         string $formId,
         Form $form
     ): void {
-        $GLOBALS['TL_JAVASCRIPT']['fdm_formdatamanager'] = 'bundles/wemformdatamanager/js/module/formdatamanager/frontend.js';
+        $GLOBALS['TL_JAVASCRIPT']['fdm_formdatamanager'] = 'bundles/ContaoFormDataManager/js/module/formdatamanager/frontend.js';
     }
 
 }

@@ -12,12 +12,12 @@ declare(strict_types=1);
  * @link     https://github.com/Web-Ex-Machina/wem-contao-form-data-manager/
  */
 
-namespace WEM\WEMFormDataManagerBundle\DataContainer;
+namespace WEM\ContaoFormDataManagerBundle\DataContainer;
 
 use Contao\FormFieldModel;
 use Symfony\Contracts\Translation\TranslatorInterface;
-use WEM\WEMFormDataManagerBundle\Model\FormStorage;
-use WEM\WEMFormDataManagerBundle\Model\FormStorageData as FormStorageDataModel;
+use WEM\ContaoFormDataManagerBundle\Model\FormStorage;
+use WEM\ContaoFormDataManagerBundle\Model\FormStorageData as FormStorageDataModel;
 
 class FormStorageData
 {

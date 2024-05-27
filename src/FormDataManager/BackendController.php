@@ -12,7 +12,7 @@ declare(strict_types=1);
  * @link     https://github.com/Web-Ex-Machina/wem-contao-form-data-manager/
  */
 
-namespace WEM\WEMFormDataManagerBundle\FormDataManager;
+namespace WEM\ContaoFormDataManagerBundle\FormDataManager;
 
 use Contao\Config;
 use Contao\CoreBundle\Controller\BackendController as ControllerBackendController;
@@ -21,8 +21,8 @@ use Contao\Input;
 use Contao\System;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Contracts\Translation\TranslatorInterface;
-use WEM\WEMFormDataManagerBundle\Model\FormStorage;
-use WEM\WEMFormDataManagerBundle\Model\FormStorageData;
+use WEM\ContaoFormDataManagerBundle\Model\FormStorage;
+use WEM\ContaoFormDataManagerBundle\Model\FormStorageData;
 use WEM\UtilsBundle\Classes\StringUtil;
 
 class BackendController extends ControllerBackendController

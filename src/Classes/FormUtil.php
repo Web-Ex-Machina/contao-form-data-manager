@@ -12,17 +12,17 @@ declare(strict_types=1);
  * @link     https://github.com/Web-Ex-Machina/wem-contao-form-data-manager/
  */
 
-namespace WEM\WEMFormDataManagerBundle\Classes;
+namespace WEM\ContaoFormDataManagerBundle\Classes;
 
 use Contao\Form;
 use Contao\FormModel;
 use Contao\Model;
 use Contao\PageModel;
 use Exception;
-use WEM\WEMFormDataManagerBundle\EmailFieldNotMandatoryInForm;
-use WEM\WEMFormDataManagerBundle\FormNotConfiguredToStoreValues;
-use WEM\WEMFormDataManagerBundle\NoEmailFieldInForm;
-use WEM\WEMFormDataManagerBundle\Model\FormField;
+use WEM\ContaoFormDataManagerBundle\EmailFieldNotMandatoryInForm;
+use WEM\ContaoFormDataManagerBundle\FormNotConfiguredToStoreValues;
+use WEM\ContaoFormDataManagerBundle\NoEmailFieldInForm;
+use WEM\ContaoFormDataManagerBundle\Model\FormField;
 
 class FormUtil
 {

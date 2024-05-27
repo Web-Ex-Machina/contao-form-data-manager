@@ -37,7 +37,7 @@ $GLOBALS['TL_DCA']['tl_sm_form_storage_data'] = [
             'headerFields' => ['form', 'tstamp', 'status'],
             // 'flag' => DataContainer::SORT_INITIAL_LETTER_ASC,
             'panelLayout' => 'filter;search,limit',
-            // 'child_record_callback' => [WEM\WEMFormDataManagerBundle\DataContainer\FormStorageData::class, 'listItems'],
+            // 'child_record_callback' => [WEM\ContaoFormDataManagerBundle\DataContainer\FormStorageData::class, 'listItems'],
             'child_record_callback' => ['wem.form_data_manager.data_container.form_storage_data', 'listItems'],
         ],
         'global_operations' => [

@@ -14,7 +14,7 @@ declare(strict_types=1);
 
 use Contao\DataContainer;
 use WEM\UtilsBundle\Classes\DateUtil;
-use WEM\WEMFormDataManagerBundle\Model\FormStorage;
+use WEM\ContaoFormDataManagerBundle\Model\FormStorage;
 
 $GLOBALS['TL_DCA']['tl_sm_form_storage'] = [
     // Config

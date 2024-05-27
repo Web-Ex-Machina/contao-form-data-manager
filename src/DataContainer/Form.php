@@ -12,7 +12,7 @@ declare(strict_types=1);
  * @link     https://github.com/Web-Ex-Machina/wem-contao-form-data-manager/
  */
 
-namespace WEM\WEMFormDataManagerBundle\DataContainer;
+namespace WEM\ContaoFormDataManagerBundle\DataContainer;
 
 use Contao\Backend;
 use Contao\CoreBundle\Exception\AccessDeniedException;
@@ -21,11 +21,11 @@ use Contao\Image;
 use Contao\Input;
 use Exception;
 use tl_form;
-use WEM\WEMFormDataManagerBundle\Classes\FormUtil;
-use WEM\WEMFormDataManagerBundle\EmailFieldNotMandatoryInForm;
-use WEM\WEMFormDataManagerBundle\FormNotConfiguredToStoreValues;
-use WEM\WEMFormDataManagerBundle\NoEmailFieldInForm;
-use WEM\WEMFormDataManagerBundle\Model\FormField;
+use WEM\ContaoFormDataManagerBundle\Classes\FormUtil;
+use WEM\ContaoFormDataManagerBundle\EmailFieldNotMandatoryInForm;
+use WEM\ContaoFormDataManagerBundle\FormNotConfiguredToStoreValues;
+use WEM\ContaoFormDataManagerBundle\NoEmailFieldInForm;
+use WEM\ContaoFormDataManagerBundle\Model\FormField;
 
 // class Form extends \tl_form
 class Form extends Backend

@@ -12,7 +12,7 @@ declare(strict_types=1);
  * @link     https://github.com/Web-Ex-Machina/wem-contao-form-data-manager/
  */
 
-namespace WEM\WEMFormDataManagerBundle\EventListener\PersonalDataManager;
+namespace WEM\ContaoFormDataManagerBundle\EventListener\PersonalDataManager;
 
 use Contao\Config;
 use Contao\Date;
@@ -28,8 +28,8 @@ use WEM\PersonalDataManagerBundle\Model\PersonalData;
 use WEM\PersonalDataManagerBundle\Service\PersonalDataManagerUi;
 use WEM\UtilsBundle\Classes\Files as FileUtil;
 use WEM\UtilsBundle\Classes\StringUtil;
-use WEM\WEMFormDataManagerBundle\Model\FormStorage;
-use WEM\WEMFormDataManagerBundle\Model\FormStorageData;
+use WEM\ContaoFormDataManagerBundle\Model\FormStorage;
+use WEM\ContaoFormDataManagerBundle\Model\FormStorageData;
 
 class UiListener
 {
@@ -45,8 +45,8 @@ class UiListener
         $this->translator = $translator;
         $this->personalDataManagerUi = $personalDataManagerUi;
 
-        $GLOBALS['TL_CSS'][] = 'bundles/wemformdatamanager/css/frontend.css';
-        $GLOBALS['TL_JAVASCRIPT'][] = 'bundles/wemformdatamanager/js/personaldatamanager/frontend.js';
+        $GLOBALS['TL_CSS'][] = 'bundles/ContaoFormDataManager/css/frontend.css';
+        $GLOBALS['TL_JAVASCRIPT'][] = 'bundles/ContaoFormDataManager/js/personaldatamanager/frontend.js';
     }
 
     public function sortData(array $sorted, ?Collection $personalDatas): array

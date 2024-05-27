@@ -12,7 +12,7 @@ declare(strict_types=1);
  * @link     https://github.com/Web-Ex-Machina/contao-smartgear/
  */
 
-namespace WEM\WEMFormDataManagerBundle\EventListener;
+namespace WEM\ContaoFormDataManagerBundle\EventListener;
 
 use Contao\Form;
 use Contao\FormFieldModel;
@@ -21,10 +21,10 @@ use Contao\PageModel;
 use Exception;
 
 use Symfony\Component\HttpFoundation\Request;
-use WEM\WEMFormDataManagerBundle\Classes\FormUtil;
-use WEM\WEMFormDataManagerBundle\Model\FormField;
-use WEM\WEMFormDataManagerBundle\Model\FormStorage;
-use WEM\WEMFormDataManagerBundle\Model\FormStorageData;
+use WEM\ContaoFormDataManagerBundle\Classes\FormUtil;
+use WEM\ContaoFormDataManagerBundle\Model\FormField;
+use WEM\ContaoFormDataManagerBundle\Model\FormStorage;
+use WEM\ContaoFormDataManagerBundle\Model\FormStorageData;
 use WEM\UtilsBundle\Classes\StringUtil;
 
 //TODO PAS FINI DU TOUT, faire une BDD et tester si je peux faire un form et le recup a la zob.

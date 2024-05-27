@@ -12,14 +12,14 @@ declare(strict_types=1);
  * @link     https://github.com/Web-Ex-Machina/wem-contao-form-data-manager/
  */
 
-namespace WEM\WEMFormDataManagerBundle\EventListener\PersonalDataManager;
+namespace WEM\ContaoFormDataManagerBundle\EventListener\PersonalDataManager;
 
 use Contao\Model;
 use Contao\Model\Collection;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use WEM\PersonalDataManagerBundle\Model\PersonalData;
-use WEM\WEMFormDataManagerBundle\Model\FormStorage;
-use WEM\WEMFormDataManagerBundle\Model\FormStorageData;
+use WEM\ContaoFormDataManagerBundle\Model\FormStorage;
+use WEM\ContaoFormDataManagerBundle\Model\FormStorageData;
 
 class AnonymizeListener
 {
