@@ -13,6 +13,10 @@ ArrayUtil::arrayInsert(
         ],
     ]
 );
+
+$GLOBALS['BE_MOD']['content']['form']['tables'][] = 'tl_sm_form_storage';
+$GLOBALS['BE_MOD']['content']['form']['tables'][] = 'tl_sm_form_storage_data';
+
 $GLOBALS['BE_MOD']['content']['form']['export_all'] = ['wem.form_data_manager.backend.backend_controller', 'exportAllFromForm'];
 $GLOBALS['BE_MOD']['content']['form']['export'] = ['wem.form_data_manager.backend.backend_controller', 'exportSingle'];
 
