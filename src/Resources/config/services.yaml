@@ -2,23 +2,23 @@ services:
   _defaults:
     autoconfigure: true
 
-  wem.data_container.form:
+  wem.form_data_manager.data_container.form:
     class: WEM\ContaoFormDataManagerBundle\DataContainer\Form
     public: true
 
-  wem.data_container.form_storage:
+  wem.form_data_manager.data_container.form_storage:
     class: WEM\ContaoFormDataManagerBundle\DataContainer\FormStorage
     arguments:
       $translator: '@contao.translation.translator'
     public: true
 
-  wem.data_container.form_storage_data:
+  wem.form_data_manager.data_container.form_storage_data:
     class: WEM\ContaoFormDataManagerBundle\DataContainer\FormStorageData
     arguments:
       $translator: '@contao.translation.translator'
     public: true
 
-  wem.classes.dca.field.callback.load.tl_sm_form_storage_data.value:
+  wem.form_data_manager.classes.dca.field.callback.load.tl_sm_form_storage_data.value:
     class: WEM\ContaoFormDataManagerBundle\Classes\Dca\Field\Callback\LoadConditionnal
     arguments:
       $pdmCallback: '@wem.personal_data_manager.dca.field.callback.load'
@@ -26,7 +26,7 @@ services:
       $table: 'tl_form_dtorage_data'
     public: true
 
-  wem.classes.dca.field.callback.save.tl_sm_form_storage_data.value:
+  wem.form_data_manager.classes.dca.field.callback.save.tl_sm_form_storage_data.value:
     class: WEM\ContaoFormDataManagerBundle\Classes\Dca\Field\Callback\SaveConditionnal
     arguments:
       $pdmCallback: '@wem.personal_data_manager.dca.field.callback.save'
