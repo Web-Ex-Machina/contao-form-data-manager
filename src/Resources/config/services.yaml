@@ -68,13 +68,11 @@ services:
     wem.form_data_manager.listener.process_form_data:
       class: WEM\ContaoFormDataManagerBundle\EventListener\ProcessFormDataListener
       arguments:
-        $translator: '@contao.translation.translator'
+        $routingCandidates: '@contao.routing.candidates'
       public: true
 
     wem.form_data_manager.listener.compile_form_fields:
       class: WEM\ContaoFormDataManagerBundle\EventListener\CompileFormFieldsListener
-      arguments:
-        $translator: '@contao.translation.translator'
       public: true
 
     wem.form_data_manager.listener.send_notification_message:
