@@ -1,6 +1,7 @@
 <?php
 
 use Contao\ArrayUtil;
+use WEM\ContaoFormDataManagerBundle\Model;
 
 ArrayUtil::arrayInsert(
     $GLOBALS['BE_MOD']['content'],
@@ -33,6 +34,8 @@ $GLOBALS['NOTIFICATION_CENTER']['NOTIFICATION_TYPE']['contao']['core_form']['ema
 $GLOBALS['NOTIFICATION_CENTER']['NOTIFICATION_TYPE']['contao']['core_form']['file_content'][] = 'useful_data';
 $GLOBALS['NOTIFICATION_CENTER']['NOTIFICATION_TYPE']['contao']['core_form']['file_content'][] = 'useful_data_filled';
 
+$GLOBALS['TL_MODELS'][Model\FormStorage::getTable()] = Model\FormStorage::class;
+$GLOBALS['TL_MODELS'][Model\FormStorageData::getTable()] = Model\FormStorageData::class;
 
 // PDM EXPORT
 $GLOBALS['WEM_HOOKS']['formatSinglePersonalDataForCsvExport'][] = ['wem.form_data_manager.listener.personal_data_csv_formatter', 'formatSingle'];
