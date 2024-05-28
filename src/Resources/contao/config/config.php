@@ -7,15 +7,15 @@ ArrayUtil::arrayInsert(
     array_search('form', array_keys($GLOBALS['BE_MOD']['content']), true) + 1,
     [
         'wem_form_data_manager' => [
-            'tables' => ['tl_sm_form_storage', 'tl_sm_form_storage_data'],
+            'tables' => ['tl_wem_form_storage', 'tl_wem_form_storage_data'],
             'export_all' => ['wem.form_data_manager.backend.backend_controller', 'exportAll'],
             'export' => ['wem.form_data_manager.backend.backend_controller', 'exportSingle'],
         ],
     ]
 );
 
-$GLOBALS['BE_MOD']['content']['form']['tables'][] = 'tl_sm_form_storage';
-$GLOBALS['BE_MOD']['content']['form']['tables'][] = 'tl_sm_form_storage_data';
+$GLOBALS['BE_MOD']['content']['form']['tables'][] = 'tl_wem_form_storage';
+$GLOBALS['BE_MOD']['content']['form']['tables'][] = 'tl_wem_form_storage_data';
 
 $GLOBALS['BE_MOD']['content']['form']['export_all'] = ['wem.form_data_manager.backend.backend_controller', 'exportAllFromForm'];
 $GLOBALS['BE_MOD']['content']['form']['export'] = ['wem.form_data_manager.backend.backend_controller', 'exportSingle'];

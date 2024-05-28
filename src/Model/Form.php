@@ -31,7 +31,7 @@ class Form extends CoreModel
     /**
      * Default order column.
      */
-    protected static string $strOrderColumn = 'tstamp DESC';
+    protected static $strOrderColumn = 'tstamp DESC';
 
     public function isManagedByFormDataManager(): bool
     {

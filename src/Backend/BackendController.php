@@ -109,13 +109,13 @@ class BackendController extends ControllerBackendController
     protected function buildHeaders($rows): array
     {
         $headers = [
-            'form' => $this->translator->trans('tl_sm_form_storage.pid.0', [], 'contao_default'),
-            'submission_date' => $this->translator->trans('tl_sm_form_storage.createdAt.0', [], 'contao_default'),
-            'status' => $this->translator->trans('tl_sm_form_storage.status.0', [], 'contao_default'),
-            'sender' => $this->translator->trans('tl_sm_form_storage.sender.0', [], 'contao_default'),
-            'completion_percentage' => $this->translator->trans('tl_sm_form_storage.completion_percentage.0', [], 'contao_default'),
-            'delay_to_first_interaction' => $this->translator->trans('tl_sm_form_storage.delay_to_first_interaction.0', [], 'contao_default'),
-            'delay_to_submission' => $this->translator->trans('tl_sm_form_storage.delay_to_submission.0', [], 'contao_default'),
+            'form' => $this->translator->trans('tl_wem_form_storage.pid.0', [], 'contao_default'),
+            'submission_date' => $this->translator->trans('tl_wem_form_storage.createdAt.0', [], 'contao_default'),
+            'status' => $this->translator->trans('tl_wem_form_storage.status.0', [], 'contao_default'),
+            'sender' => $this->translator->trans('tl_wem_form_storage.sender.0', [], 'contao_default'),
+            'completion_percentage' => $this->translator->trans('tl_wem_form_storage.completion_percentage.0', [], 'contao_default'),
+            'delay_to_first_interaction' => $this->translator->trans('tl_wem_form_storage.delay_to_first_interaction.0', [], 'contao_default'),
+            'delay_to_submission' => $this->translator->trans('tl_wem_form_storage.delay_to_submission.0', [], 'contao_default'),
         ];
         $rows->reset();
         while ($rows->next()) {
@@ -157,7 +157,7 @@ class BackendController extends ControllerBackendController
 
         $headers['form'] = $objFormStorage->getRelated('pid')->title;
         $headers['submission_date'] = Date::parse(Config::get('datimFormat'), (int) $objFormStorage->createdAt);
-        $headers['status'] = $this->translator->trans(sprintf('tl_sm_form_storage.status.%s', $objFormStorage->status), [], 'contao_default');
+        $headers['status'] = $this->translator->trans(sprintf('tl_wem_form_storage.status.%s', $objFormStorage->status), [], 'contao_default');
         $headers['sender'] = $objFormStorage->getSender();
         $headers['completion_percentage'] = $objFormStorage->completion_percentage;
         $headers['delay_to_first_interaction'] = $objFormStorage->delay_to_first_interaction;

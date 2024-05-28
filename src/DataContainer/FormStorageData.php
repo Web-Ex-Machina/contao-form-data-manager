@@ -33,6 +33,6 @@ class FormStorageData
         $objFormStorageData = FormStorageDataModel::findByPk($row['id']);
         $objFormField = FormFieldModel::findById($row['field']);
 
-        return sprintf('<div><b>%s</b> : %s<br /><b>%s</b> : %s</div>', $this->translator->trans('tl_sm_form_storage_data.field.0', [], 'contao_default'), $objFormField ? $objFormField->label : $objFormStorageData->field_label, $this->translator->trans('tl_sm_form_storage_data.value.0', [], 'contao_default'), $objFormStorageData->getValueAsString());
+        return sprintf('<div><b>%s</b> : %s<br /><b>%s</b> : %s</div>', $this->translator->trans('tl_wem_form_storage_data.field.0', [], 'contao_default'), $objFormField ? $objFormField->label : $objFormStorageData->field_label, $this->translator->trans('tl_wem_form_storage_data.value.0', [], 'contao_default'), $objFormStorageData->getValueAsString());
     }
 }

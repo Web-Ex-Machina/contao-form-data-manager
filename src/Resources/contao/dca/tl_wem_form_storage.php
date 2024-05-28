@@ -16,12 +16,12 @@ use Contao\DataContainer;
 use WEM\UtilsBundle\Classes\DateUtil;
 use WEM\ContaoFormDataManagerBundle\Model\FormStorage;
 
-$GLOBALS['TL_DCA']['tl_sm_form_storage'] = [
+$GLOBALS['TL_DCA']['tl_wem_form_storage'] = [
     // Config
     'config' => [
         'dataContainer' => 'Table',
         'ptable' => 'tl_form',
-        'ctable' => ['tl_sm_form_storage_data'],
+        'ctable' => ['tl_wem_form_storage_data'],
         'switchToEdit' => false,
         'enableVersioning' => false,
         'doNotCopyRecords' => true,
@@ -60,7 +60,7 @@ $GLOBALS['TL_DCA']['tl_sm_form_storage'] = [
         ],
         'operations' => [
             'show_data' => [
-                'href' => 'table=tl_sm_form_storage_data',
+                'href' => 'table=tl_wem_form_storage_data',
                 'icon' => 'rows.svg',
             ],
             'edit' => [
@@ -114,11 +114,11 @@ $GLOBALS['TL_DCA']['tl_sm_form_storage'] = [
             'search' => true,
             'inputType' => 'select',
             'options' => [
-                FormStorage::STATUS_UNREAD => &$GLOBALS['TL_LANG']['tl_sm_form_storage']['status']['unread'],
-                FormStorage::STATUS_READ => &$GLOBALS['TL_LANG']['tl_sm_form_storage']['status']['read'],
-                FormStorage::STATUS_SPAM => &$GLOBALS['TL_LANG']['tl_sm_form_storage']['status']['spam'],
-                FormStorage::STATUS_OK => &$GLOBALS['TL_LANG']['tl_sm_form_storage']['status']['ok'],
-                FormStorage::STATUS_REPLIED => &$GLOBALS['TL_LANG']['tl_sm_form_storage']['status']['replied'],
+                FormStorage::STATUS_UNREAD => &$GLOBALS['TL_LANG']['tl_wem_form_storage']['status']['unread'],
+                FormStorage::STATUS_READ => &$GLOBALS['TL_LANG']['tl_wem_form_storage']['status']['read'],
+                FormStorage::STATUS_SPAM => &$GLOBALS['TL_LANG']['tl_wem_form_storage']['status']['spam'],
+                FormStorage::STATUS_OK => &$GLOBALS['TL_LANG']['tl_wem_form_storage']['status']['ok'],
+                FormStorage::STATUS_REPLIED => &$GLOBALS['TL_LANG']['tl_wem_form_storage']['status']['replied'],
             ],
             'eval' => ['mandatory' => true, 'maxlength' => 32, 'tl_class' => 'w50'],
             'sql' => "varchar(32) NOT NULL default ''",

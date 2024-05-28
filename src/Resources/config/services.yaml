@@ -18,20 +18,20 @@ services:
       $translator: '@contao.translation.translator'
     public: true
 
-  wem.form_data_manager.classes.dca.field.callback.load.tl_sm_form_storage_data.value:
+  wem.form_data_manager.classes.dca.field.callback.load.tl_wem_form_storage_data.value:
     class: WEM\ContaoFormDataManagerBundle\Classes\Dca\Field\Callback\LoadConditionnal
     arguments:
       $pdmCallback: '@wem.personal_data_manager.dca.field.callback.load'
       $frontendField: 'value'
-      $table: 'tl_form_dtorage_data'
+      $table: 'tl_wem_form_storage_data'
     public: true
 
-  wem.form_data_manager.classes.dca.field.callback.save.tl_sm_form_storage_data.value:
+  wem.form_data_manager.classes.dca.field.callback.save.tl_wem_form_storage_data.value:
     class: WEM\ContaoFormDataManagerBundle\Classes\Dca\Field\Callback\SaveConditionnal
     arguments:
       $pdmCallback: '@wem.personal_data_manager.dca.field.callback.save'
       $frontendField: 'value'
-      $table: 'tl_form_dtorage_data'
+      $table: 'tl_wem_form_storage_data'
     public: true
 
   wem.form_data_manager.listener.personal_data_ui:

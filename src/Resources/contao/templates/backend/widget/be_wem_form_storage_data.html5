@@ -2,8 +2,8 @@
 	<table class="clr">
 		<thead>
 			<tr>
-				<th><?php echo $this->trans('tl_sm_form_storage_data.field.0',[],'contao_default'); ?></th>
-				<th><?php echo $this->trans('tl_sm_form_storage_data.value.0',[],'contao_default'); ?></th>
+				<th><?php echo $this->trans('tl_wem_form_storage_data.field.0',[],'contao_default'); ?></th>
+				<th><?php echo $this->trans('tl_wem_form_storage_data.value.0',[],'contao_default'); ?></th>
 			</tr>
 		</thead>
 		<tbody>

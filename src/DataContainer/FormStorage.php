@@ -43,14 +43,14 @@ class FormStorage
         return [
             $objForm ? $objForm->title : $row['pid'],
             Date::parse(Config::get('datimFormat'), (int) $row['tstamp']),
-            $this->translator->trans(sprintf('tl_sm_form_storage.status.%s', $row['status']), [], 'contao_default'),
+            $this->translator->trans(sprintf('tl_wem_form_storage.status.%s', $row['status']), [], 'contao_default'),
             empty($row['sender']) ? ($objFormStorageDataEmail ? $objFormStorageDataEmail->value : 'NR') : ($row['sender']),
         ];
     }
 
     public function showData(DataContainer $dc, string $extendedLabel): string
     {
-        System::loadLanguageFile('tl_sm_form_storage_data');
+        System::loadLanguageFile('tl_wem_form_storage_data');
         $formStorageDatas = FormStorageData::findItems(['pid' => $dc->id]);
         $arrFormStorageDatas = [];
         $objTemplate = new BackendTemplate('be_wem_form_storage_data');

@@ -38,7 +38,7 @@ class FormStorage extends CoreModel
      *
      * @var string
      */
-    protected static $strTable = 'tl_sm_form_storage';
+    protected static $strTable = 'tl_wem_form_storage';
 
     public function getSender(): ?string
     {

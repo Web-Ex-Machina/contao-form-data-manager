@@ -51,14 +51,14 @@ class FormStorageData extends CoreModel
 
     protected static string $personalDataEmailField = 'email';
 
-    protected static string $personalDataPtable = 'tl_sm_form_storage_data';
+    protected static string $personalDataPtable = 'tl_wem_form_storage_data';
 
     /**
      * Table name.
      *
      * @var string
      */
-    protected static $strTable = 'tl_sm_form_storage_data';
+    protected static $strTable = 'tl_wem_form_storage_data';
 
     public function getPersonalDataEmailFieldValue(): string
     {

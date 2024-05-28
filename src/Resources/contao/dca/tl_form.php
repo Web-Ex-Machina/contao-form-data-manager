@@ -18,10 +18,10 @@ use Contao\DcaLoader;
 (new DcaLoader('tl_form'))->load();
 
 $GLOBALS['TL_DCA']['tl_form']['list']['operations']['contacts'] = [
-    'href' => 'table=tl_sm_form_storage',
+    'href' => 'table=tl_wem_form_storage',
     'icon' => 'user.svg',
 ];
-$GLOBALS['TL_DCA']['tl_form']['config']['ctable'][] = 'tl_sm_form_storage';
+$GLOBALS['TL_DCA']['tl_form']['config']['ctable'][] = 'tl_wem_form_storage';
 $GLOBALS['TL_DCA']['tl_form']['config']['onsubmit_callback'][] = ['wem.form_data_manager.data_container.form', 'onSubmitCallback'];
 $GLOBALS['TL_DCA']['tl_form']['list']['label']['fields'] = ['title', 'submissions'];
 $GLOBALS['TL_DCA']['tl_form']['list']['label']['showColumns'] = true;

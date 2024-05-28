@@ -14,11 +14,11 @@ declare(strict_types=1);
 
 use Contao\DataContainer;
 
-$GLOBALS['TL_DCA']['tl_sm_form_storage_data'] = [
+$GLOBALS['TL_DCA']['tl_wem_form_storage_data'] = [
     // Config
     'config' => [
         'dataContainer' => 'Table',
-        'ptable' => 'tl_sm_form_storage',
+        'ptable' => 'tl_wem_form_storage',
         'switchToEdit' => false,
         'enableVersioning' => false,
         'sql' => [
@@ -76,7 +76,7 @@ $GLOBALS['TL_DCA']['tl_sm_form_storage_data'] = [
         'pid' => [
             'exclude' => true,
             'inputType' => 'picker',
-            'foreignKey' => 'tl_sm_form_storage.id',
+            'foreignKey' => 'tl_wem_form_storage.id',
             'eval' => ['mandatory' => true, 'tl_class' => 'clr'],
             'sql' => 'int(10) unsigned NOT NULL default 0',
             'relation' => ['type' => 'hasOne', 'load' => 'lazy'],
@@ -105,8 +105,8 @@ $GLOBALS['TL_DCA']['tl_sm_form_storage_data'] = [
             'search' => true,
             'inputType' => 'text',
             'eval' => ['maxlength' => 255, 'tl_class' => 'w50'],
-            'load_callback' => [['wem.form_data_manager.classes.dca.field.callback.load.tl_sm_form_storage_data.value', '__invoke']],
-            'save_callback' => [['wem.form_data_manager.classes.dca.field.callback.save.tl_sm_form_storage_data.value', '__invoke']],
+            'load_callback' => [['wem.form_data_manager.classes.dca.field.callback.load.tl_wem_form_storage_data.value', '__invoke']],
+            'save_callback' => [['wem.form_data_manager.classes.dca.field.callback.save.tl_wem_form_storage_data.value', '__invoke']],
             'sql' => "varchar(255) NOT NULL default ''",
         ],
         'contains_personal_data' => [
