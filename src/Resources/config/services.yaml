@@ -65,19 +65,19 @@ services:
       $translator: '@contao.translation.translator'
     public: true
 
-    wem.form_data_manager.listener.process_form_data:
-      class: WEM\ContaoFormDataManagerBundle\EventListener\ProcessFormDataListener
-      arguments:
-        $routingCandidates: '@contao.routing.candidates'
-      public: true
+  wem.form_data_manager.listener.process_form_data:
+    class: WEM\ContaoFormDataManagerBundle\EventListener\ProcessFormDataListener
+    arguments:
+      $routingCandidates: '@contao.routing.candidates'
+    public: true
 
-    wem.form_data_manager.listener.compile_form_fields:
-      class: WEM\ContaoFormDataManagerBundle\EventListener\CompileFormFieldsListener
-      public: true
+  wem.form_data_manager.listener.compile_form_fields:
+    class: WEM\ContaoFormDataManagerBundle\EventListener\CompileFormFieldsListener
+    public: true
 
-    wem.form_data_manager.listener.send_notification_message:
-      class: WEM\ContaoFormDataManagerBundle\EventListener\SendNotificationMessageListener
-      public: true
+  wem.form_data_manager.listener.send_notification_message:
+    class: WEM\ContaoFormDataManagerBundle\EventListener\SendNotificationMessageListener
+    public: true
 
   wem.form_data_manager.backend.backend_controller:
     class: WEM\ContaoFormDataManagerBundle\Backend\BackendController
