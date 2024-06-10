@@ -1,6 +1,8 @@
 {
     "name": "webexmachina/contao-form-data-manager",
     "description": "Bundle for manage the form data",
+    "minimum-stability": "dev",
+    "prefer-stable": true,
     "keywords": ["form", "private data", "webexmachina", "module", "contao"],
     "type": "contao-bundle",
     "license": "LGPL-3.0+",
