@@ -20,8 +20,8 @@ use Contao\Model\Collection;
 use Contao\System;
 use Contao\Validator;
 use Exception;
+use WEM\ContaoFormDataManagerBundle\Classes\FormUtil;
 use WEM\PersonalDataManagerBundle\Model\Traits\PersonalDataTrait as PDMTrait;
-use WEM\UtilsBundle\Classes\StringUtil;
 use WEM\UtilsBundle\Model\Model as CoreModel;
 
 /**
@@ -82,7 +82,7 @@ class FormStorageData extends CoreModel
 
     public function getValueAsString(): string
     {
-        return StringUtil::getFormStorageDataValueAsString($this->value);
+        return FormUtil::getFormStorageDataValueAsString($this->value);
     }
 
     public function getValueAsStringFormatted(): string

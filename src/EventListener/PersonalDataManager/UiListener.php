@@ -24,10 +24,10 @@ use Contao\Model\Collection;
 use Contao\PageModel;
 use Contao\Validator;
 use Symfony\Contracts\Translation\TranslatorInterface;
+use WEM\ContaoFormDataManagerBundle\Classes\FormUtil;
 use WEM\PersonalDataManagerBundle\Model\PersonalData;
 use WEM\PersonalDataManagerBundle\Service\PersonalDataManagerUi;
 use WEM\UtilsBundle\Classes\Files as FileUtil;
-use WEM\UtilsBundle\Classes\StringUtil;
 use WEM\ContaoFormDataManagerBundle\Model\FormStorage;
 use WEM\ContaoFormDataManagerBundle\Model\FormStorageData;
 
@@ -209,14 +209,14 @@ class UiListener
 
                 break;
             case FormStorage::getTable():
-                $buffer = StringUtil::getFormStorageDataValueAsString($this->personalDataManagerUi->formatSingleItemBodyPersonalDataSingleFieldValue($pid, $ptable, $email, $personalData, $personalDatas, $originalModel));
+                $buffer = FormUtil::getFormStorageDataValueAsString($this->personalDataManagerUi->formatSingleItemBodyPersonalDataSingleFieldValue($pid, $ptable, $email, $personalData, $personalDatas, $originalModel));
                 break;
             case FormStorageData::getTable():
                 $objFormStorageData = FormStorageData::findByPk($pid);
                 if ($objFormStorageData) {
                     switch ($objFormStorageData->field_type) {
                         case 'upload':
-                            $buffer = StringUtil::getFormStorageDataValueAsString($this->personalDataManagerUi->formatSingleItemBodyPersonalDataSingleFieldValue($pid, $ptable, $email, $personalData, $personalDatas, $originalModel));
+                            $buffer = FormUtil::getFormStorageDataValueAsString($this->personalDataManagerUi->formatSingleItemBodyPersonalDataSingleFieldValue($pid, $ptable, $email, $personalData, $personalDatas, $originalModel));
                             if (Validator::isStringUuid($buffer)) {
                                 $objFileModel = FilesModel::findByUuid($buffer);
                                 if (!$objFileModel) {
@@ -228,10 +228,10 @@ class UiListener
 
                             break;
                         default:
-                            $buffer = StringUtil::getFormStorageDataValueAsString($this->personalDataManagerUi->formatSingleItemBodyPersonalDataSingleFieldValue($pid, $ptable, $email, $personalData, $personalDatas, $originalModel));
+                            $buffer = FormUtil::getFormStorageDataValueAsString($this->personalDataManagerUi->formatSingleItemBodyPersonalDataSingleFieldValue($pid, $ptable, $email, $personalData, $personalDatas, $originalModel));
                     }
                 } else {
-                    $buffer = StringUtil::getFormStorageDataValueAsString($this->personalDataManagerUi->formatSingleItemBodyPersonalDataSingleFieldValue($pid, $ptable, $email, $personalData, $personalDatas, $originalModel));
+                    $buffer = FormUtil::getFormStorageDataValueAsString($this->personalDataManagerUi->formatSingleItemBodyPersonalDataSingleFieldValue($pid, $ptable, $email, $personalData, $personalDatas, $originalModel));
                 }
 
                 break;

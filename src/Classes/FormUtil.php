@@ -23,6 +23,7 @@ use WEM\ContaoFormDataManagerBundle\Exceptions\EmailFieldNotMandatoryInForm;
 use WEM\ContaoFormDataManagerBundle\Exceptions\FormNotConfiguredToStoreValues;
 use WEM\ContaoFormDataManagerBundle\Exceptions\NoEmailFieldInForm;
 use WEM\ContaoFormDataManagerBundle\Model\FormField;
+use WEM\UtilsBundle\Classes\StringUtil;
 
 class FormUtil
 {
@@ -65,5 +66,21 @@ class FormUtil
         } catch (Exception $exception) {
             return false;
         }
+    }
+
+    public static function getFormStorageDataValueAsString($mixed): string
+    {
+        $value = StringUtil::deserialize($mixed);
+        if (\is_array($value)) {
+            $formattedValue = [];
+            foreach ($value as $valueChunk) {
+                $formattedValue[] = sprintf('%s (%s)', $valueChunk['label'], $valueChunk['value']);
+            }
+            $formattedValue = implode(',', $formattedValue);
+        } else {
+            $formattedValue = (string) $value;
+        }
+
+        return $formattedValue;
     }
 }
