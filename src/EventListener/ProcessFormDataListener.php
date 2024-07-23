@@ -18,8 +18,9 @@ use Contao\Form;
 use Contao\FormFieldModel;
 use Contao\Model;
 use Contao\PageModel;
+use Contao\System;
 use Exception;
-
+use Contao\CoreBundle\Routing\Candidates\LocaleCandidates;
 use Symfony\Component\HttpFoundation\Request;
 use WEM\ContaoFormDataManagerBundle\Classes\FormUtil;
 use WEM\ContaoFormDataManagerBundle\Model\FormField;
@@ -31,7 +32,7 @@ use WEM\UtilsBundle\Classes\StringUtil;
 class ProcessFormDataListener
 {
 
-    protected $routingCandidates;
+    protected LocaleCandidates $routingCandidates;
 
     public function __construct($routingCandidates) {
 
@@ -65,7 +66,7 @@ class ProcessFormDataListener
                 $objFormStorage->createdAt = time();
                 $objFormStorage->pid = $form->getModel()->id;
                 $objFormStorage->status = FormStorage::STATUS_UNREAD;
-                $objFormStorage->token = REQUEST_TOKEN;
+                $objFormStorage->token = System::getContainer()->get('contao.csrf.token_manager')->getDefaultTokenValue();
                 $objFormStorage->completion_percentage = $this->calculateCompletionPercentage($submittedData, $files ?? [], $form);
                 $objFormStorage->delay_to_first_interaction = $this->calculateDelayToFirstInteraction($submittedData['fdm[first_appearance]'], $submittedData['fdm[first_interaction]']);
                 $objFormStorage->delay_to_submission = $this->calculateDelayToSubmission($submittedData['fdm[first_interaction]'], $form);

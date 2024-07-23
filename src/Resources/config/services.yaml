@@ -68,7 +68,7 @@ services:
   wem.form_data_manager.listener.process_form_data:
     class: WEM\ContaoFormDataManagerBundle\EventListener\ProcessFormDataListener
     arguments:
-      $routingCandidates: '@contao.routing.candidates'
+      $routingCandidates: '@contao.routing.locale_candidates'
     public: true
 
   wem.form_data_manager.listener.compile_form_fields:
