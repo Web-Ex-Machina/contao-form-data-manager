@@ -24,7 +24,7 @@
         "php": ">=7.4 || >=8.2",
         "contao/core-bundle": "4.13.x || 5.3.x",
         "webexmachina/contao-utils": "2.*",
-        "webexmachina/contao-personal-data-manager":"dev-php-8-2-preparation"
+        "webexmachina/contao-personal-data-manager":"^1.0"
     },
     "require-dev": {
         "contao/manager-plugin": "^2.0",
