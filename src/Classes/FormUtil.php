@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 /**
  * Form Data Manager for Contao Open Source CMS
- * Copyright (c) 2024-2042 Web ex Machina
+ * Copyright (c) 2024-2025 Web ex Machina
  *
  * @category ContaoBundle
- * @package  Web-Ex-Machina/wem-contao-form-data-manager
+ * @package  Web-Ex-Machina/contao-form-data-manager
  * @author   Web ex Machina <contact@webexmachina.fr>
- * @link     https://github.com/Web-Ex-Machina/wem-contao-form-data-manager/
+ * @link     https://github.com/Web-Ex-Machina/contao-form-data-manager/
  */
 
 namespace WEM\ContaoFormDataManagerBundle\Classes;
@@ -18,7 +18,6 @@ use Contao\Form;
 use Contao\FormModel;
 use Contao\Model;
 use Contao\PageModel;
-use Exception;
 use WEM\ContaoFormDataManagerBundle\Exceptions\EmailFieldNotMandatoryInForm;
 use WEM\ContaoFormDataManagerBundle\Exceptions\FormNotConfiguredToStoreValues;
 use WEM\ContaoFormDataManagerBundle\Exceptions\NoEmailFieldInForm;
@@ -40,7 +39,7 @@ class FormUtil
     {
         $objForm = FormModel::findById($formId);
         if (!$objForm) {
-            throw new Exception('Form not found');
+            throw new \Exception('Form not found');
         }
 
         if (!$objForm->storeViaFormDataManager) {
@@ -63,7 +62,7 @@ class FormUtil
             self::checkFormConfigurationCompliantForFormDataManager($formId);
 
             return true;
-        } catch (Exception $exception) {
+        } catch (\Exception $exception) {
             return false;
         }
     }
@@ -74,7 +73,7 @@ class FormUtil
         if (\is_array($value)) {
             $formattedValue = [];
             foreach ($value as $valueChunk) {
-                $formattedValue[] = sprintf('%s (%s)', $valueChunk['label'], $valueChunk['value']);
+                $formattedValue[] = \sprintf('%s (%s)', $valueChunk['label'], $valueChunk['value']);
             }
             $formattedValue = implode(',', $formattedValue);
         } else {

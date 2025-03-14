@@ -4,23 +4,18 @@ declare(strict_types=1);
 
 /**
  * Form Data Manager for Contao Open Source CMS
- * Copyright (c) 2024-2042 Web ex Machina
+ * Copyright (c) 2024-2025 Web ex Machina
  *
  * @category ContaoBundle
- * @package  Web-Ex-Machina/wem-contao-form-data-manager
+ * @package  Web-Ex-Machina/contao-form-data-manager
  * @author   Web ex Machina <contact@webexmachina.fr>
- * @link     https://github.com/Web-Ex-Machina/wem-contao-form-data-manager/
+ * @link     https://github.com/Web-Ex-Machina/contao-form-data-manager/
  */
 
 namespace WEM\ContaoFormDataManagerBundle\DataContainer;
 
 use Contao\Backend;
-use Contao\CoreBundle\Exception\AccessDeniedException;
 use Contao\DataContainer;
-use Contao\Image;
-use Contao\Input;
-use Exception;
-use tl_form;
 use WEM\ContaoFormDataManagerBundle\Classes\FormUtil;
 use WEM\ContaoFormDataManagerBundle\Exceptions\EmailFieldNotMandatoryInForm;
 use WEM\ContaoFormDataManagerBundle\Exceptions\FormNotConfiguredToStoreValues;
@@ -31,7 +26,6 @@ use WEM\ContaoFormDataManagerBundle\Model\FormStorage;
 // class Form extends \tl_form
 class Form extends Backend
 {
-
     /** @var Backend */
     private $parent;
 
@@ -39,7 +33,7 @@ class Form extends Backend
     {
         parent::__construct();
 
-        $this->parent = new tl_form();
+        $this->parent = new \tl_form();
     }
 
     public function listItems(array $row, string $label, DataContainer $dc, array $labels): array
@@ -55,9 +49,10 @@ class Form extends Backend
             $labels[1] = $e->getMessage();
         } catch (EmailFieldNotMandatoryInForm $e) {
             $labels[1] = $e->getMessage();
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $labels[1] = $e->getMessage();
         }
+
         return $labels;
     }
 
@@ -87,7 +82,7 @@ class Form extends Backend
             $objFormFieldEmail = FormField::findItems(['pid' => $dc->id, 'name' => 'email']);
             $objFormFieldEmail->mandatory = 1;
             $objFormFieldEmail->save();
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $labels[1] = $e->getMessage();
         }
     }

@@ -3,24 +3,23 @@
 declare(strict_types=1);
 
 /**
- * SMARTGEAR for Contao Open Source CMS
- * Copyright (c) 2015-2023 Web ex Machina
+ * Form Data Manager for Contao Open Source CMS
+ * Copyright (c) 2024-2025 Web ex Machina
  *
  * @category ContaoBundle
- * @package  Web-Ex-Machina/contao-smartgear
+ * @package  Web-Ex-Machina/contao-form-data-manager
  * @author   Web ex Machina <contact@webexmachina.fr>
- * @link     https://github.com/Web-Ex-Machina/contao-smartgear/
+ * @link     https://github.com/Web-Ex-Machina/contao-form-data-manager/
  */
 
 namespace WEM\ContaoFormDataManagerBundle\EventListener;
 
+use Contao\CoreBundle\Routing\Candidates\LocaleCandidates;
 use Contao\Form;
 use Contao\FormFieldModel;
 use Contao\Model;
 use Contao\PageModel;
 use Contao\System;
-use Exception;
-use Contao\CoreBundle\Routing\Candidates\LocaleCandidates;
 use Symfony\Component\HttpFoundation\Request;
 use WEM\ContaoFormDataManagerBundle\Classes\FormUtil;
 use WEM\ContaoFormDataManagerBundle\Model\FormField;
@@ -28,27 +27,27 @@ use WEM\ContaoFormDataManagerBundle\Model\FormStorage;
 use WEM\ContaoFormDataManagerBundle\Model\FormStorageData;
 use WEM\UtilsBundle\Classes\StringUtil;
 
-//TODO PAS FINI DU TOUT, faire une BDD et tester si je peux faire un form et le recup a la zob.
+// TODO PAS FINI DU TOUT, faire une BDD et tester si je peux faire un form et le recup a la zob.
+// 2025-03-14 : seems to work as intended. Problem logic ? :trollface:
 class ProcessFormDataListener
 {
-
     protected LocaleCandidates $routingCandidates;
 
-    public function __construct($routingCandidates) {
-
+    public function __construct($routingCandidates)
+    {
         $this->routingCandidates = $routingCandidates;
     }
 
     /**
      * Handle form submission and store the form data in the form storage.
      *
-     * @param array $submittedData The submitted form data.
-     * @param array $formData The form data.
-     * @param array|null $files The uploaded files.
-     * @param array $labels The labels for the form fields.
-     * @param Form $form The form object.
+     * @param array      $submittedData the submitted form data
+     * @param array      $formData      the form data
+     * @param array|null $files         the uploaded files
+     * @param array      $labels        the labels for the form fields
+     * @param Form       $form          the form object
      *
-     * @throws Exception If the form field is not found in the form.
+     * @throws \Exception if the form field is not found in the form
      */
     public function __invoke(
         array $submittedData,
@@ -91,14 +90,14 @@ class ProcessFormDataListener
                 $this->storeFilesValues($files ?? [], $objFormStorage);
             }
         }
-
     }
 
     /**
      * Get the ID of the referring page.
      *
-     * @param string $url The URL of the referring page.
-     * @return int|null The ID of the referring page, or null if not found.
+     * @param string $url the URL of the referring page
+     *
+     * @return int|null the ID of the referring page, or null if not found
      */
     protected function getRefererPageId(string $url): ?int
     {
@@ -111,7 +110,7 @@ class ProcessFormDataListener
                     $refererPageId = $objPage->id;
                 }
             }
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
         }
 
         return $refererPageId ? (int) $refererPageId : $refererPageId;
@@ -120,9 +119,10 @@ class ProcessFormDataListener
     /**
      * Calculate the delay in milliseconds between the first appearance and first interaction.
      *
-     * @param string $firstAppearanceMs The timestamp of the first appearance in milliseconds.
-     * @param string $firstInteractionMs The timestamp of the first interaction in milliseconds.
-     * @return int The delay in milliseconds.
+     * @param string $firstAppearanceMs  the timestamp of the first appearance in milliseconds
+     * @param string $firstInteractionMs the timestamp of the first interaction in milliseconds
+     *
+     * @return int the delay in milliseconds
      */
     protected function calculateDelayToFirstInteraction(string $firstAppearanceMs, string $firstInteractionMs): int
     {
@@ -132,9 +132,10 @@ class ProcessFormDataListener
     /**
      * Calculate the delay to submission.
      *
-     * @param string $firstInteractionMs The timestamp in milliseconds of the first interaction.
-     * @param Form $form The form object.
-     * @return int The delay to submission in milliseconds.
+     * @param string $firstInteractionMs the timestamp in milliseconds of the first interaction
+     * @param Form   $form               the form object
+     *
+     * @return int the delay to submission in milliseconds
      */
     protected function calculateDelayToSubmission(string $firstInteractionMs, Form $form): int
     {
@@ -144,10 +145,11 @@ class ProcessFormDataListener
     /**
      * Calculate the completion percentage of a form based on submitted data.
      *
-     * @param array $submittedData The submitted data from the form.
-     * @param array $files The submitted files from the form.
-     * @param Form $form The form object.
-     * @return float The completion percentage of the form.
+     * @param array $submittedData the submitted data from the form
+     * @param array $files         the submitted files from the form
+     * @param Form  $form          the form object
+     *
+     * @return float the completion percentage of the form
      */
     protected function calculateCompletionPercentage(array $submittedData, array $files, Form $form): float
     {
@@ -175,17 +177,19 @@ class ProcessFormDataListener
     /**
      * Store the value of a form field in the form storage.
      *
-     * @param string $fieldName The name of the form field.
-     * @param mixed $value The value of the form field.
-     * @param FormStorage $objFormStorage The form storage object.
-     * @return FormStorageData The stored form storage data.
-     * @throws Exception If the form field is not found in the form.
+     * @param string      $fieldName      the name of the form field
+     * @param mixed       $value          the value of the form field
+     * @param FormStorage $objFormStorage the form storage object
+     *
+     * @throws \Exception if the form field is not found in the form
+     *
+     * @return FormStorageData the stored form storage data
      */
     protected function storeFieldValue(string $fieldName, $value, FormStorage $objFormStorage): FormStorageData
     {
         $objFormField = FormField::findItems(['name' => $fieldName, 'pid' => $objFormStorage->pid], 1);
         if (!$objFormField) {
-            throw new Exception(sprintf('Unable to find field "%s" in form "%s"', $fieldName, $objFormStorage->getRelated('pid')->name));
+            throw new \Exception(\sprintf('Unable to find field "%s" in form "%s"', $fieldName, $objFormStorage->getRelated('pid')->name));
         }
 
         $objFormStorageData = new FormStorageData();
@@ -204,10 +208,11 @@ class ProcessFormDataListener
     }
 
     /**
-     * Retrieve and store the values of file fields in the form storage
+     * Retrieve and store the values of file fields in the form storage.
      *
-     * @param array $files The files array containing the uploaded files
+     * @param array       $files          The files array containing the uploaded files
      * @param FormStorage $objFormStorage The form storage object
+     *
      * @return array The stored file values
      */
     protected function storeFilesValues(array $files, FormStorage $objFormStorage): array
@@ -230,17 +235,19 @@ class ProcessFormDataListener
     /**
      * Stores the file value in the database and returns the created FormStorageData object.
      *
-     * @param string $fieldName The name of the field
-     * @param array $fileData The data of the uploaded file
+     * @param string      $fieldName      The name of the field
+     * @param array       $fileData       The data of the uploaded file
      * @param FormStorage $objFormStorage The form storage object
+     *
+     * @throws \Exception If the field cannot be found in the form
+     *
      * @return FormStorageData|null The created FormStorageData object, or null if no file uploaded
-     * @throws Exception If the field cannot be found in the form
      */
     protected function storeFileValue(string $fieldName, array $fileData, FormStorage $objFormStorage): ?FormStorageData
     {
         $objFormField = FormField::findItems(['name' => $fieldName, 'pid' => $objFormStorage->pid], 1);
         if (!$objFormField) {
-            throw new Exception(sprintf('Unable to find field "%s" in form "%s"', $fieldName, $objFormStorage->getRelated('pid')->name));
+            throw new \Exception(\sprintf('Unable to find field "%s" in form "%s"', $fieldName, $objFormStorage->getRelated('pid')->name));
         }
 
         $value = '';
@@ -271,7 +278,8 @@ class ProcessFormDataListener
      * Formats the submitted value to store in the database based on the form field type.
      *
      * @param mixed $submittedValue The value submitted by the user
-     * @param Model $objFormField The form field object
+     * @param Model $objFormField   The form field object
+     *
      * @return mixed The formatted value to store
      */
     protected function formatValueToStore($submittedValue, Model $objFormField)
