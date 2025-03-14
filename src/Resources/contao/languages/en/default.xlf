@@ -1,0 +1,43 @@
+<?xml version="1.0" ?><xliff version="1.1">
+    <file datatype="php" original="system/modules/wem-contao-form-data-manager/languages/en/default.php" source-language="en" target-language="en">
+       <body>
+           <!-- Form Data Manager -->
+           <trans-unit id="WEM.FDM.FORM.notManagedByFDM">
+               <source>Form not configured to store values with Form Data Manager</source>
+           </trans-unit>
+           <trans-unit id="WEM.FDM.FORM.noEmailField">
+               <source>No "email" field in the form</source>
+           </trans-unit>
+           <trans-unit id="WEM.FDM.FORM.emailFieldPresentButNotMandatory">
+               <source>The "email" field is not mandatory !</source>
+           </trans-unit>
+           <trans-unit id="WEM.FDM.FORM.emailFieldLabel">
+               <source>E-mail</source>
+           </trans-unit>
+           <trans-unit id="WEM.FDM.FORM.emailFieldPlaceholder">
+               <source>Your e-mail address</source>
+           </trans-unit>
+           <trans-unit id="WEM.FDM.EXPORT.fieldNotPresentInForm">
+               <source>Field not present in form</source>
+           </trans-unit>
+           <trans-unit id="WEM.FDM.PDMUI.buttonShowFile">
+               <source>Show</source>
+           </trans-unit>
+           <trans-unit id="WEM.FDM.PDMUI.buttonDownloadFile">
+               <source>Download</source>
+           </trans-unit>
+           <trans-unit id="WEM.FDM.PDMUI.fileNotFound">
+               <source>File not found</source>
+           </trans-unit>
+           <trans-unit id="WEM.FDM.ERROR.noFileUploaded">
+               <source>No file uploaded</source>
+           </trans-unit>
+           <trans-unit id="WEM.FDM.ERROR.fileUploadedButNotStored">
+               <source>File uploaded but not stored</source>
+           </trans-unit>
+           <trans-unit id="WEM.FDM.ERROR.uploadedFileNotFound">
+               <source>Uploaded file not found</source>
+           </trans-unit>
+       </body>
+    </file>
+</xliff>

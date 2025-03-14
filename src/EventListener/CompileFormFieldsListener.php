@@ -4,43 +4,41 @@ declare(strict_types=1);
 
 /**
  * Form Data Manager for Contao Open Source CMS
- * Copyright (c) 2024-2042 Web ex Machina
+ * Copyright (c) 2024-2025 Web ex Machina
  *
  * @category ContaoBundle
- * @package  Web-Ex-Machina/wem-contao-form-data-manager
+ * @package  Web-Ex-Machina/contao-form-data-manager
  * @author   Web ex Machina <contact@webexmachina.fr>
- * @link     https://github.com/Web-Ex-Machina/wem-contao-form-data-manager/
+ * @link     https://github.com/Web-Ex-Machina/contao-form-data-manager/
  */
 
 namespace WEM\ContaoFormDataManagerBundle\EventListener;
 
-use Contao\Form;
-use Contao\System;
 use Contao\Environment;
+use Contao\Form;
 use Contao\FormFieldModel;
+use Contao\System;
 
 class CompileFormFieldsListener
 {
-    public function __construct() {}
+    public function __construct()
+    {
+    }
 
     /**
      * Sets the fdm_formdatamanager javascript file for the given form.
      *
-     * @param array $arrFields The array fields for the form.
-     * @param string $formId The ID of the form.
-     * @param Form $form The form object.
-     *
-     * @return array
+     * @param array  $arrFields the array fields for the form
+     * @param string $formId    the ID of the form
+     * @param Form   $form      the form object
      */
     public function __invoke(
         array $arrFields,
         string $formId,
         Form $form
     ): array {
-        $GLOBALS['TL_JAVASCRIPT']['fdm_formdatamanager'] = 'bundles/ContaoFormDataManager/js/module/formdatamanager/frontend.js';
-
+        $GLOBALS['TL_JAVASCRIPT']['fdm_formdatamanager'] = 'bundles/contaoformdatamanager/js/formdatamanager/frontend.js';
         if ((bool) $form->getModel()->storeViaFormDataManager) {
-
             global $objPage;
 
             $objFormFieldFirstAppearance = (new FormFieldModel());
@@ -79,7 +77,5 @@ class CompileFormFieldsListener
         }
 
         return $arrFields;
-
     }
-
 }

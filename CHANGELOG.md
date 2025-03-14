@@ -1,4 +1,6 @@
 Bundle for manage the form data
 ======================
 
-v0.0.1
+v1.0.1 - 2025-03-14
+---
+- Fixes here and there
