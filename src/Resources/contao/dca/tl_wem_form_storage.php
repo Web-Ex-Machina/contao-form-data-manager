@@ -103,6 +103,7 @@ $GLOBALS['TL_DCA']['tl_wem_form_storage'] = [
         ],
         'pid' => [
             'exclude' => true,
+            'filter' => true,
             'search' => true,
             'inputType' => 'select',
             'foreignKey' => 'tl_form.title',

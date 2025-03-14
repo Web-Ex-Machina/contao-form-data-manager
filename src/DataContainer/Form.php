@@ -22,10 +22,11 @@ use Contao\Input;
 use Exception;
 use tl_form;
 use WEM\ContaoFormDataManagerBundle\Classes\FormUtil;
-use WEM\ContaoFormDataManagerBundle\EmailFieldNotMandatoryInForm;
-use WEM\ContaoFormDataManagerBundle\FormNotConfiguredToStoreValues;
-use WEM\ContaoFormDataManagerBundle\NoEmailFieldInForm;
+use WEM\ContaoFormDataManagerBundle\Exceptions\EmailFieldNotMandatoryInForm;
+use WEM\ContaoFormDataManagerBundle\Exceptions\FormNotConfiguredToStoreValues;
+use WEM\ContaoFormDataManagerBundle\Exceptions\NoEmailFieldInForm;
 use WEM\ContaoFormDataManagerBundle\Model\FormField;
+use WEM\ContaoFormDataManagerBundle\Model\FormStorage;
 
 // class Form extends \tl_form
 class Form extends Backend
@@ -41,9 +42,22 @@ class Form extends Backend
         $this->parent = new tl_form();
     }
 
-    public function listItems(array $labels): array
+    public function listItems(array $row, string $label, DataContainer $dc, array $labels): array
     {
-        $labels[1] = '0';
+        try {
+            // check form configuration
+            FormUtil::checkFormConfigurationCompliantForFormDataManager($row['id']);
+
+            $labels[1] = FormStorage::countItems(['pid' => $row['id']]);
+        } catch (FormNotConfiguredToStoreValues $e) {
+            $labels[1] = $e->getMessage();
+        } catch (NoEmailFieldInForm $e) {
+            $labels[1] = $e->getMessage();
+        } catch (EmailFieldNotMandatoryInForm $e) {
+            $labels[1] = $e->getMessage();
+        } catch (Exception $e) {
+            $labels[1] = $e->getMessage();
+        }
         return $labels;
     }
 
@@ -76,52 +90,5 @@ class Form extends Backend
         } catch (Exception $e) {
             $labels[1] = $e->getMessage();
         }
-    }
-
-    /**
-     * Check permissions to edit table tl_form.
-     *
-     * @throws AccessDeniedException
-     */
-    public function checkPermission(): void
-    {
-        // parent::checkPermission();
-        $this->parent->checkPermission();
-
-        if (Input::get('act') === 'delete') {
-            if ($this->isItemUsedBySmartgear((int) Input::get('id'))) {
-                throw new AccessDeniedException('Not enough permissions to '.Input::get('act').' form ID '.Input::get('id').'.');
-            }
-        }
-    }
-
-    /**
-     * Return the delete form button.
-     */
-    public function deleteItem(array $row, string $href, string $label, string $title, string $icon, string $attributes): string
-    {
-        if ($this->isItemUsedBySmartgear((int) $row['id'])) {
-            return Image::getHtml(preg_replace('/\.svg$/i', '_.svg', $icon)).' ';
-        }
-
-        return $this->parent->deleteForm($row, $href, $label, $title, $icon, $attributes);
-    }
-
-    /**
-     * Check if the form is being used by Smartgear.
-     *
-     * @param int $id form's ID
-     */
-    protected function isItemUsedBySmartgear(int $id): bool
-    {
-        try {
-            $formContactConfig = $this->configurationManager->load()->getSgFormContact();
-            if ($formContactConfig->getSgInstallComplete() && $id === (int) $formContactConfig->getSgFormContact()) {
-                return true;
-            }
-        } catch (\Exception $exception) {
-        }
-
-        return false;
     }
 }

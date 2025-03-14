@@ -57,9 +57,8 @@ class ProcessFormDataListener
         array $labels,
         Form $form
     ): void {
-
         if ($form->getModel()->storeViaFormDataManager) {
-            if (FormUtil::isFormConfigurationCompliantForFormDataManager($form->getModel()->id)) {
+            if ((bool) FormUtil::isFormConfigurationCompliantForFormDataManager($form->getModel()->id)) {
                 $objFormStorage = new FormStorage();
 
                 $objFormStorage->tstamp = time();
