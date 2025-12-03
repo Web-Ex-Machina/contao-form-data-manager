@@ -52,8 +52,8 @@ class SendNotificationMessageListener
             }
         }
 
-        $arrTokens['useful_data_arr'] = [];
-        $arrTokens['useful_data_filled_arr'] = [];
+        $arrUsefulData = [];
+        $arrUsefulDataFilled = [];
 
         foreach ($arrTokens2 as $fieldName => $fieldDefinition) {
             $objFormField = FormFieldModel::findOneBy(['pid = ?', 'name = ?'], [$arrTokens['formconfig_id'], $fieldName]);
@@ -64,16 +64,16 @@ class SendNotificationMessageListener
                 continue;
             }
 
-            $arrTokens['useful_data_arr'][$fieldDefinition['label']] = $fieldDefinition['value'];
+            $arrUsefulData[$fieldDefinition['label']] = $fieldDefinition['value'];
             if (!empty($fieldDefinition['value'])) {
-                $arrTokens['useful_data_filled_arr'][$fieldDefinition['label']] = $fieldDefinition['value'];
+                $arrUsefulDataFilled[$fieldDefinition['label']] = $fieldDefinition['value'];
             }
         }
 
         $arrTokens['useful_data'] = '';
         $arrTokens['useful_data_text'] = '';
 
-        foreach ($arrTokens['useful_data_arr'] as $label => $value) {
+        foreach ($arrUsefulData as $label => $value) {
             $arrTokens['useful_data'] .= \sprintf('%s: %s<br />', $label, $value);
             $arrTokens['useful_data_text'] .= \sprintf("%s: %s\n", $label, $value);
         }
@@ -81,12 +81,10 @@ class SendNotificationMessageListener
         $arrTokens['useful_data_filled'] = '';
         $arrTokens['useful_data_filled_text'] = '';
 
-        foreach ($arrTokens['useful_data_filled_arr'] as $label => $value) {
+        foreach ($arrUsefulDataFilled as $label => $value) {
             $arrTokens['useful_data_filled'] .= \sprintf('%s: %s<br />', $label, $value);
             $arrTokens['useful_data_filled_text'] .= \sprintf("%s: %s\n", $label, $value);
         }
-
-        unset($arrTokens['useful_data_arr'], $arrTokens['useful_data_filled_arr']);
 
         return true;
     }
