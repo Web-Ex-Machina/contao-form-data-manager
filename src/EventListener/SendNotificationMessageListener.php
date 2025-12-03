@@ -52,6 +52,9 @@ class SendNotificationMessageListener
             }
         }
 
+        $arrTokens['useful_data_arr'] = [];
+        $arrTokens['useful_data_filled_arr'] = [];
+
         foreach ($arrTokens2 as $fieldName => $fieldDefinition) {
             $objFormField = FormFieldModel::findOneBy(['pid = ?', 'name = ?'], [$arrTokens['formconfig_id'], $fieldName]);
             if (!$objFormField
