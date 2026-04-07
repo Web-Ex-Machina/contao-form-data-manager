@@ -105,10 +105,10 @@ $GLOBALS['TL_DCA']['tl_wem_form_storage_data'] = [
         'value' => [
             'search' => true,
             'inputType' => 'text',
-            'eval' => ['maxlength' => 255, 'tl_class' => 'w50'],
+            'eval' => ['tl_class' => 'clr'],
             'load_callback' => [['wem.form_data_manager.classes.dca.field.callback.load.tl_wem_form_storage_data.value', '__invoke']],
             'save_callback' => [['wem.form_data_manager.classes.dca.field.callback.save.tl_wem_form_storage_data.value', '__invoke']],
-            'sql' => "varchar(255) NOT NULL default ''",
+            'sql' => "mediumtext NULL",
         ],
         'contains_personal_data' => [
             'search' => true,
