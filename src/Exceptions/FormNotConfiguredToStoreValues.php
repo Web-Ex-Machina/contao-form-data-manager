@@ -4,18 +4,13 @@ declare(strict_types=1);
 
 /**
  * Form Data Manager for Contao Open Source CMS
- * Copyright (c) 2024-2042 Web ex Machina
- *
- * @category ContaoBundle
- * @package  Web-Ex-Machina/wem-contao-form-data-manager
- * @author   Web ex Machina <contact@webexmachina.fr>
- * @link     https://github.com/Web-Ex-Machina/wem-contao-form-data-manager/
+ * @author     Web Ex Machina
+ * @see        https://github.com/Web-Ex-Machina/contao-form-data-manager
+ * @license    https://www.gnu.org/licenses/lgpl+gpl-3.0.txt
  */
 
 namespace WEM\ContaoFormDataManagerBundle\Exceptions;
 
-use Exception;
-
-class FormNotConfiguredToStoreValues extends Exception
+class FormNotConfiguredToStoreValues extends \Exception
 {
 }

@@ -4,12 +4,9 @@ declare(strict_types=1);
 
 /**
  * Form Data Manager for Contao Open Source CMS
- * Copyright (c) 2024-2042 Web ex Machina
- *
- * @category ContaoBundle
- * @package  Web-Ex-Machina/wem-contao-form-data-manager
- * @author   Web ex Machina <contact@webexmachina.fr>
- * @link     https://github.com/Web-Ex-Machina/wem-contao-form-data-manager/
+ * @author     Web Ex Machina
+ * @see        https://github.com/Web-Ex-Machina/contao-form-data-manager
+ * @license    https://www.gnu.org/licenses/lgpl+gpl-3.0.txt
  */
 
 namespace WEM\ContaoFormDataManagerBundle\Model;
@@ -19,21 +16,29 @@ use Contao\FilesModel;
 use Contao\Model\Collection;
 use Contao\System;
 use Contao\Validator;
-use Exception;
 use WEM\ContaoFormDataManagerBundle\Classes\FormUtil;
 use WEM\PersonalDataManagerBundle\Model\Traits\PersonalDataTrait as PDMTrait;
 use WEM\UtilsBundle\Model\Model as CoreModel;
 
 /**
- * Reads and writes items.
+ * @property int         $id
+ * @property int         $pid
+ * @property int|string  $tstamp
+ * @property int|string  $createdAt
+ * @property int         $field
+ * @property string      $field_label
+ * @property string      $field_name
+ * @property string      $field_type
+ * @property string|null $value
+ * @property bool        $contains_personal_data
  */
 class FormStorageData extends CoreModel
 {
     use PDMTrait;
 
-    public const NO_FILE_UPLOADED = 'no_file_uploaded';
+    public const string NO_FILE_UPLOADED = 'no_file_uploaded';
 
-    public const FILE_UPLOADED_BUT_NOT_STORED = 'file_uploaded_but_not_stored';
+    public const string FILE_UPLOADED_BUT_NOT_STORED = 'file_uploaded_but_not_stored';
 
     protected static array $personalDataFieldsNames = [
         'value',
@@ -53,23 +58,25 @@ class FormStorageData extends CoreModel
 
     protected static string $personalDataPtable = 'tl_wem_form_storage_data';
 
-    /**
-     * Table name.
-     *
-     * @var string
-     */
     protected static $strTable = 'tl_wem_form_storage_data';
 
     public function getPersonalDataEmailFieldValue(): string
     {
-        $objFS = FormStorage::findItems(['id' => $this->pid]);
-        if ($objFS && !empty($objFS->sender)) {
+        $objFS = FormStorage::findItems([
+            'id' => $this->pid,
+        ]);
+
+        if ($objFS instanceof Collection && ! empty($objFS->sender)) {
             return $objFS->sender;
         }
 
-        $objFDS = self::findItems(['pid' => $this->pid, 'field_name' => 'email'], 1);
-        if (!$objFDS instanceof Collection) {
-            throw new Exception('Unable to find the email field');
+        $objFDS = self::findItems([
+            'pid' => $this->pid,
+            'field_name' => 'email',
+        ], 1);
+
+        if (! $objFDS instanceof Collection) {
+            throw new \RuntimeException('Unable to find the email field');
         }
 
         return $objFDS->value;
@@ -88,41 +95,30 @@ class FormStorageData extends CoreModel
     public function getValueAsStringFormatted(): string
     {
         $value = $this->getValueAsString();
-        switch ($this->field_type) {
-            case 'textarea':
-            case 'textareacustom':
-                $value = nl2br($value ?? '');
-                break;
-            case 'upload':
-                switch ($value) {
-                    case self::NO_FILE_UPLOADED:
-                        $value = $GLOBALS['TL_LANG']['WEMSG']['FDM']['ERROR']['noFileUploaded'];
-                        break;
-                    case self::FILE_UPLOADED_BUT_NOT_STORED:
-                        $value = $GLOBALS['TL_LANG']['WEMSG']['FDM']['ERROR']['fileUploadedButNotStored'];
-                        break;
-                    default:
-                        if (Validator::isStringUuid($value)) {
-                            // we should have an UUID here
-                            $objFile = FilesModel::findByUuid($value);
-                            $value = $objFile ? $objFile->path : $GLOBALS['TL_LANG']['WEMSG']['FDM']['ERROR']['uploadedFileNotFound'];
-                        }
 
-                        break;
-                }
-
-                break;
-        }
-
-        return $value;
+        return match ($this->field_type) {
+            'textarea', 'textareacustom' => nl2br($value),
+            'upload' => $this->formatUploadValue($value),
+            default => $value,
+        };
     }
 
     public static function deleteAll(): void
     {
-        $objStatement = Database::getInstance()->prepare(sprintf('DELETE FROM %s', self::getTable()));
-        $objStatement->execute();
+        Database::getInstance()->prepare(\sprintf('DELETE FROM %s', self::getTable()))->execute();
 
-        $manager = System::getContainer()->get('wem.personal_data_manager.service.personal_data_manager');
-        $manager->deleteByPtable(self::getTable());
+        System::getContainer()->get('wem.personal_data_manager.service.personal_data_manager')->deleteByPtable(self::getTable());
+    }
+
+    private function formatUploadValue(string $value): string
+    {
+        $translator = System::getContainer()->get('translator');
+
+        return match (true) {
+            $value === self::NO_FILE_UPLOADED => $translator->trans('WEM.FDM.ERROR.noFileUploaded', [], 'contao_default'),
+            $value === self::FILE_UPLOADED_BUT_NOT_STORED => $translator->trans('WEM.FDM.ERROR.fileUploadedButNotStored', [], 'contao_default'),
+            Validator::isStringUuid($value) => FilesModel::findByUuid($value)?->path ?? $translator->trans('WEM.FDM.ERROR.uploadedFileNotFound', [], 'contao_default'),
+            default => $value,
+        };
     }
 }

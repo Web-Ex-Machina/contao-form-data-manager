@@ -4,12 +4,9 @@ declare(strict_types=1);
 
 /**
  * Form Data Manager for Contao Open Source CMS
- * Copyright (c) 2015-2024 Web ex Machina
- *
- * @category ContaoBundle
- * @package  Web-Ex-Machina/wem-contao-form-data-manager
- * @author   Web ex Machina <contact@webexmachina.fr>
- * @link     https://github.com/Web-Ex-Machina/wem-contao-form-data-manager/
+ * @author     Web Ex Machina
+ * @see        https://github.com/Web-Ex-Machina/contao-form-data-manager
+ * @license    https://www.gnu.org/licenses/lgpl+gpl-3.0.txt
  */
 
 namespace WEM\ContaoFormDataManagerBundle\EventListener\PersonalDataManager;
@@ -22,59 +19,54 @@ use Contao\MemberGroupModel;
 use Contao\Model;
 use Contao\Model\Collection;
 use Contao\PageModel;
+use Contao\StringUtil;
 use Contao\Validator;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use WEM\ContaoFormDataManagerBundle\Classes\FormUtil;
+use WEM\ContaoFormDataManagerBundle\Model\FormStorage;
+use WEM\ContaoFormDataManagerBundle\Model\FormStorageData;
 use WEM\PersonalDataManagerBundle\Model\PersonalData;
 use WEM\PersonalDataManagerBundle\Service\PersonalDataManagerUi;
 use WEM\UtilsBundle\Classes\Files as FileUtil;
-use WEM\ContaoFormDataManagerBundle\Model\FormStorage;
-use WEM\ContaoFormDataManagerBundle\Model\FormStorageData;
 
+/**
+ * Registered on the $GLOBALS['WEM_HOOKS'] of the Personal Data Manager UI.
+ */
 class UiListener
 {
+    private const string CSS_PATH = 'bundles/contaoformdatamanager/css/frontend.css';
 
-    protected TranslatorInterface $translator;
+    private const array HIDDEN_MEMBER_FIELDS = ['id', 'tstamp', 'password', 'dateAdded', 'lastLogin', 'loginAttempts', 'locked', 'session', 'secret', 'backupCodes', 'trustedTokenVersion', 'currentLogin'];
 
-    protected PersonalDataManagerUi $personalDataManagerUi;
+    private const array HIDDEN_FORM_STORAGE_FIELDS = ['id', 'tstamp', 'status', 'token', 'completion_percentage', 'delay_to_submission', 'delay_to_first_interaction', 'note'];
 
     public function __construct(
-        TranslatorInterface $translator,
-        PersonalDataManagerUi $personalDataManagerUi
+        private readonly TranslatorInterface $translator,
+        private readonly PersonalDataManagerUi $personalDataManagerUi,
     ) {
-        $this->translator = $translator;
-        $this->personalDataManagerUi = $personalDataManagerUi;
-
-        $GLOBALS['TL_CSS'][] = 'bundles/ContaoFormDataManager/css/frontend.css';
-        $GLOBALS['TL_JAVASCRIPT'][] = 'bundles/ContaoFormDataManager/js/personaldatamanager/frontend.js';
     }
 
-    public function sortData(array $sorted, ?Collection $personalDatas): array
+    public function sortData(array $sorted, Collection|null $personalDatas): array
     {
+        if (! isset($sorted[FormStorageData::getTable()])) {
+            return $sorted;
+        }
+
         $sorted2 = $sorted;
+        $sorted2[FormStorage::getTable()] ??= [];
 
-        foreach ($sorted as $ptable => $ptableDatas) {
-            if ($ptable == FormStorageData::getTable()) {
-                foreach ($ptableDatas as $id => $idDatas) {
-                    $objFormStorageData = FormStorageData::findOneBy('id', $idDatas['personalDatas'][0]->pid);
-                    /** @var FormStorage */
-                    $objFormStorage = $objFormStorageData->getRelated('pid');
+        foreach ($sorted[FormStorageData::getTable()] as $id => $idDatas) {
+            /** @var FormStorage $objFormStorage */
+            $objFormStorage = FormStorageData::findOneBy('id', $idDatas['personalDatas'][0]->pid)->getRelated('pid');
 
-                    if (!\array_key_exists(FormStorage::getTable(), $sorted2)) {
-                        $sorted2[FormStorage::getTable()] = [];
-                    }
-
-                    if (!\array_key_exists($objFormStorage->id, $sorted2[FormStorage::getTable()])) {
-                        $arrPersonalDatas = $this->getPersonalDataForFormStorage($objFormStorage);
-                        $sorted2[FormStorage::getTable()][$objFormStorage->id] = [
-                            'originalModel' => $arrPersonalDatas[0],
-                            'personalDatas' => $arrPersonalDatas[1],
-                        ];
-                    }
-
-                    unset($sorted2[$ptable][$id]);
-                }
+            if (! \array_key_exists($objFormStorage->id, $sorted2[FormStorage::getTable()])) {
+                $sorted2[FormStorage::getTable()][$objFormStorage->id] = [
+                    'originalModel' => $objFormStorage,
+                    'personalDatas' => $this->getPersonalDataForFormStorage($objFormStorage),
+                ];
             }
+
+            unset($sorted2[FormStorageData::getTable()][$id]);
         }
 
         return $sorted2;
@@ -82,107 +74,59 @@ class UiListener
 
     public function renderSingleItemTitle(int $pid, string $ptable, string $email, array $personalDatas, Model $originalModel, string $buffer): string
     {
-        switch ($ptable) {
-            case 'tl_member':
-                $buffer = 'Member';
-                break;
-            case FormStorage::getTable():
-                $objFormStorage = FormStorage::findOneBy('id', $pid);
-                $objForm = $objFormStorage->getRelated('pid');
-                $buffer = sprintf('%s %s', 'Formulaire', $objForm->title);
-                break;
-        }
-
-        return $buffer;
+        return match ($ptable) {
+            'tl_member' => 'Member',
+            FormStorage::getTable() => \sprintf('%s %s', 'Formulaire', FormStorage::findOneBy('id', $pid)->getRelated('pid')->title),
+            default => $buffer,
+        };
     }
 
-    public function renderSingleItemBodyOriginalModelSingle(int $pid, string $ptable, string $email, string $field, $value, array $personalDatas, Model $originalModel, string $buffer): string
+    public function renderSingleItemBodyOriginalModelSingle(int $pid, string $ptable, string $email, string $field, mixed $value, array $personalDatas, Model $originalModel, string $buffer): string
     {
-        switch ($ptable) {
-            case 'tl_member':
-                switch ($field) {
-                    case 'id':
-                    case 'tstamp':
-                    case 'password':
-                    case 'dateAdded':
-                    case 'lastLogin':
-                    case 'loginAttempts':
-                    case 'locked':
-                    case 'session':
-                    case 'secret':
-                    case 'backupCodes':
-                    case 'trustedTokenVersion':
-                    case 'currentLogin':
-                        $buffer = '';
-                        break;
-                }
+        $hiddenFields = match ($ptable) {
+            'tl_member' => self::HIDDEN_MEMBER_FIELDS,
+            FormStorage::getTable() => self::HIDDEN_FORM_STORAGE_FIELDS,
+            default => [],
+        };
 
-                break;
-            case FormStorage::getTable():
-                switch ($field) {
-                    case 'id':
-                    case 'tstamp':
-                    case 'status':
-                    case 'token':
-                    case 'completion_percentage':
-                    case 'delay_to_submission':
-                    case 'delay_to_first_interaction':
-                    case 'note':
-                        $buffer = '';
-                        break;
-                }
-
-                break;
-        }
-
-        return $buffer;
+        return \in_array($field, $hiddenFields, true) ? '' : $buffer;
     }
 
-    public function renderSingleItemBodyOriginalModelSingleFieldValue(int $pid, string $ptable, string $email, string $field, $value, array $personalDatas, Model $originalModel, string $buffer): string
+    public function renderSingleItemBodyOriginalModelSingleFieldValue(int $pid, string $ptable, string $email, string $field, mixed $value, array $personalDatas, Model $originalModel, string $buffer): string
     {
-        if (empty($buffer)) {
-            return sprintf('<i>%s</i>', $this->translator->trans('WEM.SMARTGEAR.DEFAULT.NotFilled', [], 'contao_default'));
+        if ($buffer === '') {
+            return $this->renderNotFilled();
         }
 
         switch ($ptable) {
             case 'tl_member':
                 switch ($field) {
                     case 'login':
-                        $buffer = sprintf('<input type="checkbox" readonly %s />', true === (bool) $value ? 'checked' : '');
-                        break;
+                        return \sprintf('<input type="checkbox" readonly %s />', $value ? 'checked' : '');
+
                     case 'groups':
-                        $groupIds = unserialize($value);
                         $buffer = '<ul>';
-                        foreach ($groupIds as $groupId) {
-                            $objGroup = MemberGroupModel::findById($groupId);
-                            $buffer .= sprintf('<li>- %s</li>', null !== $objGroup ? $objGroup->name : $this->translator->trans('WEM.SMARTGEAR.DEFAULT.elementUnknown', [], 'contao_default'));
+
+                        foreach (StringUtil::deserialize($value, true) as $groupId) {
+                            $buffer .= \sprintf('<li>- %s</li>', MemberGroupModel::findById($groupId)?->name ?? $this->translator->trans('WEM.FDM.PDMUI.elementUnknown', [], 'contao_default'));
                         }
 
-                        $buffer .= '<ul>';
-                        break;
+                        return $buffer . '</ul>';
                 }
 
                 break;
+
             case FormStorage::getTable():
                 switch ($field) {
                     case 'pid':
-                        $objFormStorage = FormStorage::findOneBy('id', $pid);
-                        $objForm = $objFormStorage->getRelated('pid');
-                        $buffer = $objForm->title;
-                        break;
+                        return (string) FormStorage::findOneBy('id', $pid)->getRelated('pid')?->title;
+
                     case 'createdAt':
-                        $buffer = Date::parse(Config::get('datimFormat'), (int) $value);
-                        break;
+                        return Date::parse(Config::get('datimFormat'), (int) $value);
+
                     case 'current_page':
                     case 'referer_page':
-                        if (!empty($value)) {
-                            $objPage = PageModel::findOneById($value);
-                            if ($objPage) {
-                                $buffer = $objPage->title;
-                            }
-                        }
-
-                        break;
+                        return ($value ? PageModel::findById($value)?->title : null) ?? $buffer;
                 }
 
                 break;
@@ -195,64 +139,33 @@ class UiListener
     {
         switch ($ptable) {
             case 'tl_member':
-                switch ($personalData->field) {
-                    case 'dateOfBirth':
-                        $buffer = !empty($buffer) ? Date::parse(Config::get('dateFormat'), (int) $buffer) : $buffer;
-                        break;
-                    default:
-                        if (empty($buffer)) {
-                            return sprintf('<i>%s</i>', $this->translator->trans('WEM.SMARTGEAR.DEFAULT.NotFilled', [], 'contao_default'));
-                        }
-
-                        break;
+                if ($personalData->field === 'dateOfBirth') {
+                    return $buffer !== '' ? Date::parse(Config::get('dateFormat'), (int) $buffer) : $buffer;
                 }
 
-                break;
+                return $buffer !== '' ? $buffer : $this->renderNotFilled();
+
             case FormStorage::getTable():
-                $buffer = FormUtil::getFormStorageDataValueAsString($this->personalDataManagerUi->formatSingleItemBodyPersonalDataSingleFieldValue($pid, $ptable, $email, $personalData, $personalDatas, $originalModel));
-                break;
+                return $this->formatPersonalDataValue($pid, $ptable, $email, $personalData, $personalDatas, $originalModel);
+
             case FormStorageData::getTable():
-                $objFormStorageData = FormStorageData::findByPk($pid);
-                if ($objFormStorageData) {
-                    switch ($objFormStorageData->field_type) {
-                        case 'upload':
-                            $buffer = FormUtil::getFormStorageDataValueAsString($this->personalDataManagerUi->formatSingleItemBodyPersonalDataSingleFieldValue($pid, $ptable, $email, $personalData, $personalDatas, $originalModel));
-                            if (Validator::isStringUuid($buffer)) {
-                                $objFileModel = FilesModel::findByUuid($buffer);
-                                if (!$objFileModel) {
-                                    $buffer = $this->translator->trans('WEM.FDM.PDMUI.fileNotFound', [], 'contao_default');
-                                } else {
-                                    $buffer = $objFileModel->name;
-                                }
-                            }
+                $value = $this->formatPersonalDataValue($pid, $ptable, $email, $personalData, $personalDatas, $originalModel);
 
-                            break;
-                        default:
-                            $buffer = FormUtil::getFormStorageDataValueAsString($this->personalDataManagerUi->formatSingleItemBodyPersonalDataSingleFieldValue($pid, $ptable, $email, $personalData, $personalDatas, $originalModel));
-                    }
-                } else {
-                    $buffer = FormUtil::getFormStorageDataValueAsString($this->personalDataManagerUi->formatSingleItemBodyPersonalDataSingleFieldValue($pid, $ptable, $email, $personalData, $personalDatas, $originalModel));
+                if (FormStorageData::findByPk($pid)?->field_type === 'upload' && Validator::isStringUuid($value)) {
+                    return FilesModel::findByUuid($value)?->name ?? $this->translator->trans('WEM.FDM.PDMUI.fileNotFound', [], 'contao_default');
                 }
 
-                break;
+                return $value;
+
             default:
-                if (empty($buffer)) {
-                    return sprintf('<i>%s</i>', $this->translator->trans('WEM.SMARTGEAR.DEFAULT.NotFilled', [], 'contao_default'));
-                }
-
-                break;
+                return $buffer !== '' ? $buffer : $this->renderNotFilled();
         }
-
-        return $buffer;
     }
 
     public function renderSingleItemBodyPersonalDataSingleFieldLabel(int $pid, string $ptable, string $email, PersonalData $personalData, array $personalDatas, Model $originalModel, string $buffer): string
     {
-        switch ($ptable) {
-            case FormStorage::getTable():
-            case FormStorageData::getTable():
-                $buffer = $personalData->field_label ?? $buffer;
-                break;
+        if (\in_array($ptable, [FormStorage::getTable(), FormStorageData::getTable()], true)) {
+            return $personalData->field_label ?? $buffer;
         }
 
         return $buffer;
@@ -260,55 +173,79 @@ class UiListener
 
     public function renderSingleItemBodyPersonalDataSingle(int $pid, string $ptable, string $email, PersonalData $personalData, array $personalDatas, Model $originalModel, string $buffer): string
     {
-        if ($ptable == FormStorage::getTable()) {
-            $buffer = $this->personalDataManagerUi->formatSingleItemBodyPersonalDataSingle((int)$personalData->pid, $personalData->ptable, $email, $personalData, $personalDatas, $originalModel);
+        if (FormStorage::getTable() === $ptable) {
+            return $this->personalDataManagerUi->formatSingleItemBodyPersonalDataSingle((int) $personalData->pid, $personalData->ptable, $email, $personalData, $personalDatas, $originalModel);
         }
 
         return $buffer;
     }
 
-    public function buildSingleItemBodyPersonalDataSingleButtons(int $pid, string $ptable, string $email, PersonalData $personalData, array $personalDatas, Model $originalModel, ?File $file, array $buttons): array
+    public function buildSingleItemBodyPersonalDataSingleButtons(int $pid, string $ptable, string $email, PersonalData $personalData, array $personalDatas, Model $originalModel, File|null $file, array $buttons): array
     {
-
-        if ($file instanceof File) {
-            if (FileUtil::isDisplayableInBrowser($file)) {
-                $buttons['show'] = sprintf('<br /><a href="%s" class="pdm-button pdm-button_show_file pdm-item__personal_data_single__button_show_file" target="_blank" data-path="%s">%s</a>',
-                    $this->personalDataManagerUi->getUrl(),
-                    $file->path,
-                    $this->translator->trans('WEM.FDM.PDMUI.buttonShowFile', [], 'contao_default')
-                );
-            }
-
-            $buttons['download'] = sprintf('<br /><a href="%s" class="pdm-button pdm-button_download_file pdm-item__personal_data_single__button_download_file" target="_blank" data-path="%s">%s</a>',
-                $this->personalDataManagerUi->getUrl(),
-                $file->path,
-                $this->translator->trans('WEM.FDM.PDMUI.buttonDownloadFile', [], 'contao_default')
-            );
+        if (! $file instanceof File) {
+            return $buttons;
         }
 
+        $GLOBALS['TL_CSS']['fdm_pdm'] = self::CSS_PATH . '|static';
+
+        if (FileUtil::isDisplayableInBrowser($file)) {
+            $buttons['show'] = $this->renderFileButton($file, 'show', 'WEM.FDM.PDMUI.buttonShowFile');
+        }
+
+        $buttons['download'] = $this->renderFileButton($file, 'download', 'WEM.FDM.PDMUI.buttonDownloadFile');
 
         return $buttons;
     }
 
-    protected function getPersonalDataForFormStorage(FormStorage $objFormStorage): array
+    /**
+     * Gathers all the personal data attached to a form storage.
+     *
+     * @return list<Model>
+     */
+    private function getPersonalDataForFormStorage(FormStorage $objFormStorage): array
     {
-        $formStorageDatas = FormStorageData::findItems(['pid' => $objFormStorage->id]);
-        // make personalDatas all personal datas attached to this form
         $arrPersonalDatas = [];
-        if ($formStorageDatas) {
-            while ($formStorageDatas->next()) {
-                // $objFormStorage->{$formStorageDatas->field_name} = $formStorageDatas->current()->getValueAsString();
-                $objPersonalData = PersonalData::findOneByPidAndPTableAndField((int) $formStorageDatas->id, FormStorageData::getTable(), 'value');
-                if ($objPersonalData instanceof Collection) {
-                    $objPersonalData = $objPersonalData->current();
-                    $arrPersonalDataValues = $objPersonalData->row();
-                    $arrPersonalDataValues['field_label'] = $formStorageDatas->field_label;
-                    $objPersonalData->setRow($arrPersonalDataValues);
-                    $arrPersonalDatas[] = $objPersonalData;
-                }
+
+        foreach (FormStorageData::findItems([
+            'pid' => $objFormStorage->id,
+        ]) ?? [] as $formStorageData) {
+            $objPersonalData = PersonalData::findOneByPidAndPtableAndField((int) $formStorageData->id, FormStorageData::getTable(), 'value');
+
+            if (! $objPersonalData instanceof Collection) {
+                continue;
             }
+
+            $objPersonalData = $objPersonalData->current();
+            $objPersonalData->setRow([
+                ...$objPersonalData->row(),
+                'field_label' => $formStorageData->field_label,
+            ]);
+            $arrPersonalDatas[] = $objPersonalData;
         }
 
-        return [$objFormStorage, $arrPersonalDatas];
+        return $arrPersonalDatas;
+    }
+
+    private function formatPersonalDataValue(int $pid, string $ptable, string $email, PersonalData $personalData, array $personalDatas, Model $originalModel): string
+    {
+        return FormUtil::getFormStorageDataValueAsString(
+            $this->personalDataManagerUi->formatSingleItemBodyPersonalDataSingleFieldValue($pid, $ptable, $email, $personalData, $personalDatas, $originalModel),
+        );
+    }
+
+    private function renderFileButton(File $file, string $action, string $label): string
+    {
+        return \sprintf(
+            '<br /><a href="%1$s" class="pdm-button pdm-button_%2$s_file pdm-item__personal_data_single__button_%2$s_file" target="_blank" data-path="%3$s">%4$s</a>',
+            $this->personalDataManagerUi->getUrl(),
+            $action,
+            $file->path,
+            $this->translator->trans($label, [], 'contao_default'),
+        );
+    }
+
+    private function renderNotFilled(): string
+    {
+        return \sprintf('<i>%s</i>', $this->translator->trans('WEM.FDM.PDMUI.notFilled', [], 'contao_default'));
     }
 }

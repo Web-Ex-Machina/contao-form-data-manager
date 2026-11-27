@@ -4,12 +4,9 @@ declare(strict_types=1);
 
 /**
  * Form Data Manager for Contao Open Source CMS
- * Copyright (c) 2024-2042 Web ex Machina
- *
- * @category ContaoBundle
- * @package  Web-Ex-Machina/wem-contao-form-data-manager
- * @author   Web ex Machina <contact@webexmachina.fr>
- * @link     https://github.com/Web-Ex-Machina/wem-contao-form-data-manager/
+ * @author     Web Ex Machina
+ * @see        https://github.com/Web-Ex-Machina/contao-form-data-manager
+ * @license    https://www.gnu.org/licenses/lgpl+gpl-3.0.txt
  */
 
 namespace WEM\ContaoFormDataManagerBundle\Model;
@@ -19,35 +16,38 @@ use Contao\Model\Collection;
 use WEM\UtilsBundle\Model\Model as CoreModel;
 
 /**
- * Reads and writes items.
+ * @property int    $id
+ * @property int    $pid
+ * @property int|string $tstamp
+ * @property int|string $createdAt
+ * @property string $status
+ * @property string $note
+ * @property string $token
+ * @property float  $completion_percentage
+ * @property int|string $delay_to_first_interaction
+ * @property int|string $delay_to_submission
+ * @property int    $current_page
+ * @property string $current_page_url
+ * @property int    $referer_page
+ * @property string $referer_page_url
+ * @property string $sender
  */
 class FormStorage extends CoreModel
 {
-    public const STATUS_UNREAD = 'unread';
-
-    public const STATUS_READ = 'read';
-
-    public const STATUS_SPAM = 'spam';
-
-    public const STATUS_OK = 'ok';
-
-    public const STATUS_REPLIED = 'replied';
-
-    /**
-     * Table name.
-     *
-     * @var string
-     */
     protected static $strTable = 'tl_wem_form_storage';
 
-    public function getSender(): ?string
+    public function getSender(): string|null
     {
-        if (!empty($this->sender)) {
+        if (! empty($this->sender)) {
             return $this->sender;
         }
 
-        $formStorageDatas = FormStorageData::findItems(['pid' => $this->id, 'field_name' => 'email'], 1);
-        if (!$formStorageDatas instanceof Collection) {
+        $formStorageDatas = FormStorageData::findItems([
+            'pid' => $this->id,
+            'field_name' => 'email',
+        ], 1);
+
+        if (! $formStorageDatas instanceof Collection) {
             return null;
         }
 
@@ -56,8 +56,7 @@ class FormStorage extends CoreModel
 
     public static function deleteAll(): void
     {
-        $objStatement = Database::getInstance()->prepare(sprintf('DELETE FROM %s', self::getTable()));
-        $objStatement->execute();
+        Database::getInstance()->prepare(\sprintf('DELETE FROM %s', self::getTable()))->execute();
 
         FormStorageData::deleteAll();
     }

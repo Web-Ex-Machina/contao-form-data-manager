@@ -1,8 +1,6 @@
 {
     "name": "webexmachina/contao-form-data-manager",
     "description": "Bundle for manage the form data",
-    "minimum-stability": "dev",
-    "prefer-stable": true,
     "keywords": ["form", "private data", "webexmachina", "module", "contao"],
     "type": "contao-bundle",
     "license": "LGPL-3.0+",
@@ -14,54 +12,56 @@
             "role": "Developer"
         }
     ],
-    "support":
-    {
+    "support": {
         "website": "https://www.webexmachina.fr",
         "issues": "https://github.com/Web-Ex-Machina/contao-form-data-manager/issues",
         "source": "https://github.com/Web-Ex-Machina/contao-form-data-manager"
     },
     "require": {
-        "php": ">=7.4 || >=8.2",
-        "contao/core-bundle": "4.13.x || 5.3.x",
-        "webexmachina/contao-utils": "2.*",
-        "webexmachina/contao-personal-data-manager":"^1.0"
+        "php": "^8.4",
+        "contao/core-bundle": "^5.7",
+        "contao/manager-plugin": "^2.0",
+        "symfony/config": "^7.4",
+        "symfony/dependency-injection": "^7.4",
+        "symfony/event-dispatcher": "^7.4",
+        "symfony/http-foundation": "^7.4",
+        "symfony/http-kernel": "^7.4",
+        "symfony/routing": "^7.4",
+        "symfony/security-core": "^7.4",
+        "symfony/translation-contracts": "^3.0",
+        "webexmachina/contao-utils": "^2.0",
+        "webexmachina/contao-personal-data-manager": "^1.3"
     },
     "require-dev": {
-        "contao/manager-plugin": "^2.0",
-        "rector/rector": "^1.0",
-        "contao/maker-bundle": "^5.3"
+        "contao/manager-plugin": "@stable",
+        "contao/easy-coding-standard": "@stable",
+        "rector/rector": "@stable",
+        "phpstan/phpstan": "@stable",
+        "contao/contao-rector": "dev-main",
+        "terminal42/notification_center": "^2.0"
+    },
+    "suggest": {
+        "terminal42/notification_center": "Adds the ##useful_data## tokens to the form generator notification type"
     },
     "conflict": {
-        "contao/manager-plugin": "<2.0 || >=3.0"
+        "contao/manager-plugin": "<2.0 || >=3.0",
+        "terminal42/notification_center": "<2.0"
     },
     "autoload": {
         "psr-4": {
             "WEM\\ContaoFormDataManagerBundle\\": "src/"
-        },
-        "classmap": [
-            "src/Resources/contao/"
-        ],
-        "exclude-from-classmap": [
-            "src/Resources/contao/config/",
-            "src/Resources/contao/dca/",
-            "src/Resources/contao/languages/",
-            "src/Resources/contao/templates/"
-        ]
-    },
-    "autoload-dev": {
-        "psr-4": {
-            "WEM\\ContaoFormDataManagerBundle\\Tests\\": "tests/"
         }
     },
-    "extra":
-    {
+    "extra": {
         "contao-manager-plugin": "WEM\\ContaoFormDataManagerBundle\\ContaoManager\\Plugin"
     },
     "config": {
         "allow-plugins": {
-            "contao-components/installer": true,
-            "php-http/discovery": true,
-            "contao/manager-plugin": true
+            "contao-components/installer": false,
+            "contao/manager-plugin": false,
+            "php-http/discovery": false,
+            "contao-community-alliance/composer-plugin": true,
+            "dealerdirect/phpcodesniffer-composer-installer": false
         }
     }
 }
