@@ -4,78 +4,65 @@ declare(strict_types=1);
 
 /**
  * Form Data Manager for Contao Open Source CMS
- * Copyright (c) 2024-2025 Web ex Machina
- *
- * @category ContaoBundle
- * @package  Web-Ex-Machina/contao-form-data-manager
- * @author   Web ex Machina <contact@webexmachina.fr>
- * @link     https://github.com/Web-Ex-Machina/contao-form-data-manager/
+ * @author     Web Ex Machina
+ * @see        https://github.com/Web-Ex-Machina/contao-form-data-manager
+ * @license    https://www.gnu.org/licenses/lgpl+gpl-3.0.txt
  */
 
 namespace WEM\ContaoFormDataManagerBundle\EventListener;
 
-use Contao\Environment;
+use Contao\CoreBundle\DependencyInjection\Attribute\AsHook;
 use Contao\Form;
 use Contao\FormFieldModel;
-use Contao\System;
+use Contao\PageModel;
+use Symfony\Component\HttpFoundation\RequestStack;
 
+/**
+ * Adds the technical hidden fields used to compute the submission statistics.
+ */
+#[AsHook('compileFormFields')]
 class CompileFormFieldsListener
 {
-    public function __construct()
-    {
+    public const string JS_PATH = 'bundles/contaoformdatamanager/js/formdatamanager/frontend.js';
+
+    public function __construct(
+        private readonly RequestStack $requestStack
+    ) {
     }
 
     /**
-     * Sets the fdm_formdatamanager javascript file for the given form.
+     * @param array<string, FormFieldModel> $arrFields
      *
-     * @param array  $arrFields the array fields for the form
-     * @param string $formId    the ID of the form
-     * @param Form   $form      the form object
+     * @return array<string, FormFieldModel>
      */
-    public function __invoke(
-        array $arrFields,
-        string $formId,
-        Form $form
-    ): array {
-        $GLOBALS['TL_JAVASCRIPT']['fdm_formdatamanager'] = 'bundles/contaoformdatamanager/js/formdatamanager/frontend.js';
-        if ((bool) $form->getModel()->storeViaFormDataManager) {
-            global $objPage;
-
-            $objFormFieldFirstAppearance = (new FormFieldModel());
-            $objFormFieldFirstAppearance->name = 'fdm[first_appearance]';
-            $objFormFieldFirstAppearance->type = 'hidden';
-            $objFormFieldFirstAppearance->is_technical_field = 1;
-            $arrFields['first_appearance'] = $objFormFieldFirstAppearance;
-
-            $objFormFieldFirstInteraction = (new FormFieldModel());
-            $objFormFieldFirstInteraction->name = 'fdm[first_interaction]';
-            $objFormFieldFirstInteraction->type = 'hidden';
-            $objFormFieldFirstInteraction->is_technical_field = 1;
-            $arrFields['first_interaction'] = $objFormFieldFirstInteraction;
-
-            $objFormFieldCurrentPage = (new FormFieldModel());
-            $objFormFieldCurrentPage->name = 'fdm[current_page]';
-            $objFormFieldCurrentPage->type = 'hidden';
-            $objFormFieldCurrentPage->is_technical_field = 1;
-            $objFormFieldCurrentPage->value = $objPage ? $objPage->id : 0;
-            $arrFields['current_page'] = $objFormFieldCurrentPage;
-
-            $objFormFieldCurrentPage = (new FormFieldModel());
-            $objFormFieldCurrentPage->name = 'fdm[current_page_url]';
-            $objFormFieldCurrentPage->type = 'hidden';
-            $objFormFieldCurrentPage->is_technical_field = 1;
-            $objFormFieldCurrentPage->value = Environment::get('uri');
-            $arrFields['current_page_url'] = $objFormFieldCurrentPage;
-
-            // Previous page
-            $objFormFieldRefererPage = (new FormFieldModel());
-            $objFormFieldRefererPage->name = 'fdm[referer_page_url]';
-            $objFormFieldRefererPage->type = 'hidden';
-            $objFormFieldRefererPage->is_technical_field = 1;
-            $objFormFieldRefererPage->value = System::getReferer();
-            $arrFields['referer_page_url'] = $objFormFieldRefererPage;
+    public function __invoke(array $arrFields, string $formId, Form $form): array
+    {
+        if (! $form->getModel()->storeViaFormDataManager) {
+            return $arrFields;
         }
 
+        $GLOBALS['TL_JAVASCRIPT']['fdm_formdatamanager'] = self::JS_PATH . '|static';
+
+        $request = $this->requestStack->getCurrentRequest();
+        $page = $request?->attributes->get('pageModel');
+
+        $arrFields['first_appearance'] = $this->createHiddenField('first_appearance');
+        $arrFields['first_interaction'] = $this->createHiddenField('first_interaction');
+        $arrFields['current_page'] = $this->createHiddenField('current_page', $page instanceof PageModel ? (string) $page->id : '0');
+        $arrFields['current_page_url'] = $this->createHiddenField('current_page_url', (string) $request?->getUri());
+        $arrFields['referer_page_url'] = $this->createHiddenField('referer_page_url', (string) $request?->headers->get('referer'));
+
         return $arrFields;
+    }
+
+    private function createHiddenField(string $name, string $value = ''): FormFieldModel
+    {
+        $field = new FormFieldModel();
+        $field->name = \sprintf('fdm[%s]', $name);
+        $field->type = 'hidden';
+        $field->is_technical_field = 1;
+        $field->value = $value;
+
+        return $field;
     }
 }

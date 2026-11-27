@@ -4,57 +4,51 @@ declare(strict_types=1);
 
 /**
  * Form Data Manager for Contao Open Source CMS
- * Copyright (c) 2024-2042 Web ex Machina
- *
- * @category ContaoBundle
- * @package  Web-Ex-Machina/wem-contao-form-data-manager
- * @author   Web ex Machina <contact@webexmachina.fr>
- * @link     https://github.com/Web-Ex-Machina/wem-contao-form-data-manager/
+ * @author     Web Ex Machina
+ * @see        https://github.com/Web-Ex-Machina/contao-form-data-manager
+ * @license    https://www.gnu.org/licenses/lgpl+gpl-3.0.txt
  */
 
 namespace WEM\ContaoFormDataManagerBundle\EventListener\PersonalDataManager;
 
 use Contao\FilesModel;
 use Contao\Validator;
-use Symfony\Contracts\Translation\TranslatorInterface;
-use WEM\PersonalDataManagerBundle\Model\PersonalData;
 use WEM\ContaoFormDataManagerBundle\Model\FormStorageData;
+use WEM\PersonalDataManagerBundle\Model\PersonalData;
 
+/**
+ * Registered as $GLOBALS['WEM_HOOKS']['getFileByPidAndPtableAndEmailAndField'] and ['isPersonalDataLinkedToFile'].
+ */
 class ManagerListener
 {
-    protected TranslatorInterface $translator;
-
-    public function __construct(
-        TranslatorInterface $translator
-    ) {
-        $this->translator = $translator;
-    }
-
-    public function getFileByPidAndPtableAndEmailAndField(int $pid, string $ptable, string $email, string $field, PersonalData $personalData, $value, ?FilesModel $objFileModel): ?FilesModel
+    public function getFileByPidAndPtableAndEmailAndField(int $pid, string $ptable, string $email, string $field, PersonalData $personalData, mixed $value, FilesModel|null $objFileModel): FilesModel|null
     {
-        if ($ptable === FormStorageData::getTable()) {
-            $objFormStorageData = FormStorageData::findByPk($pid);
-            if ($objFormStorageData && $objFormStorageData->field_type === 'upload') {
-                if (Validator::isStringUuid($objFormStorageData->value)) {
-                    $objFileModel = FilesModel::findByUuid($objFormStorageData->value);
-                }
-            }
+        if (FormStorageData::getTable() !== $ptable) {
+            return $objFileModel;
         }
 
-        return $objFileModel;
+        $uuid = $this->getUploadedFileUuid($pid);
+
+        return $uuid !== null ? FilesModel::findByUuid($uuid) : $objFileModel;
     }
 
     public function isPersonalDataLinkedToFile(PersonalData $personalData, bool $isLinkedToFile): bool
     {
-        if ($personalData->ptable === FormStorageData::getTable()) {
-            $objFormStorageData = FormStorageData::findByPk($personalData->pid);
-            if ($objFormStorageData && $objFormStorageData->field_type === 'upload') {
-                if (Validator::isStringUuid($objFormStorageData->value)) {
-                    $isLinkedToFile = true;
-                }
-            }
+        if (FormStorageData::getTable() !== $personalData->ptable) {
+            return $isLinkedToFile;
         }
 
-        return $isLinkedToFile;
+        return $this->getUploadedFileUuid((int) $personalData->pid) !== null || $isLinkedToFile;
+    }
+
+    private function getUploadedFileUuid(int $formStorageDataId): string|null
+    {
+        $objFormStorageData = FormStorageData::findByPk($formStorageDataId);
+
+        if (! $objFormStorageData instanceof FormStorageData || $objFormStorageData->field_type !== 'upload') {
+            return null;
+        }
+
+        return Validator::isStringUuid((string) $objFormStorageData->value) ? $objFormStorageData->value : null;
     }
 }

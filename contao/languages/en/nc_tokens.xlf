@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xliff version="1.2">
+    <file datatype="php" source-language="en" target-language="en">
+        <body>
+            <trans-unit id="nc_tokens.form.useful_data">
+                <source>Submitted form data (HTML), without the Form Data Manager technical fields.</source>
+            </trans-unit>
+            <trans-unit id="nc_tokens.form.useful_data_text">
+                <source>Submitted form data (text), without the Form Data Manager technical fields.</source>
+            </trans-unit>
+            <trans-unit id="nc_tokens.form.useful_data_filled">
+                <source>Filled submitted form data (HTML), without the Form Data Manager technical fields.</source>
+            </trans-unit>
+            <trans-unit id="nc_tokens.form.useful_data_filled_text">
+                <source>Filled submitted form data (text), without the Form Data Manager technical fields.</source>
+            </trans-unit>
+        </body>
+    </file>
+</xliff>

@@ -1,0 +1,63 @@
+<?xml version="1.0" ?><xliff version="1.1">
+    <file datatype="php" original="system/modules/wem-contao-form-data-manager/languages/en/default.php" source-language="en" target-language="fr">
+       <body>
+           <!-- Form Data Manager -->
+           <trans-unit id="WEM.FDM.FORM.notManagedByFDM">
+               <source>Form not configured to store values with Form Data Manager</source>
+               <target>Formulaire non configuré pour enregistrer les données avec le Form Data Manager</target>
+           </trans-unit>
+           <trans-unit id="WEM.FDM.FORM.noEmailField">
+               <source>No "email" field in the form</source>
+               <target>Champ "email" non présent dans le formulaire</target>
+           </trans-unit>
+           <trans-unit id="WEM.FDM.FORM.emailFieldPresentButNotMandatory">
+               <source>The "email" field is not mandatory !</source>
+               <target>Champ "email" non obligatoire dans le formulaire !</target>
+           </trans-unit>
+           <trans-unit id="WEM.FDM.FORM.emailFieldLabel">
+               <source>E-mail</source>
+               <target>E-mail</target>
+           </trans-unit>
+           <trans-unit id="WEM.FDM.FORM.emailFieldPlaceholder">
+               <source>Your e-mail address</source>
+               <target>Votre adresse e-mail</target>
+           </trans-unit>
+           <trans-unit id="WEM.FDM.EXPORT.fieldNotPresentInForm">
+               <source>Field not present in form</source>
+               <target>Champ non présent dans le formulaire</target>
+           </trans-unit>
+           <trans-unit id="WEM.FDM.PDMUI.buttonShowFile">
+               <source>Show</source>
+               <target>Afficher</target>
+           </trans-unit>
+           <trans-unit id="WEM.FDM.PDMUI.buttonDownloadFile">
+               <source>Download</source>
+               <target>Télécharger</target>
+           </trans-unit>
+           <trans-unit id="WEM.FDM.PDMUI.fileNotFound">
+               <source>File not found</source>
+               <target>Fichier introuvable</target>
+           </trans-unit>
+           <trans-unit id="WEM.FDM.PDMUI.notFilled">
+               <source>Not filled</source>
+               <target>Non renseigné</target>
+           </trans-unit>
+           <trans-unit id="WEM.FDM.PDMUI.elementUnknown">
+               <source>Unknown element</source>
+               <target>Élément inconnu</target>
+           </trans-unit>
+           <trans-unit id="WEM.FDM.ERROR.noFileUploaded">
+               <source>No file uploaded</source>
+               <target>Aucun fichier transmis</target>
+           </trans-unit>
+           <trans-unit id="WEM.FDM.ERROR.fileUploadedButNotStored">
+               <source>File uploaded but not stored</source>
+               <target>Fichier transmis mais non enregistré</target>
+           </trans-unit>
+           <trans-unit id="WEM.FDM.ERROR.uploadedFileNotFound">
+               <source>Uploaded file not found</source>
+               <target>Fichier transmis introuvable</target>
+           </trans-unit>
+       </body>
+    </file>
+</xliff>

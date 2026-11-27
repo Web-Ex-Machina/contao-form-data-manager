@@ -1,0 +1,13 @@
+services:
+    _defaults:
+        autowire: true
+        autoconfigure: true
+
+    WEM\ContaoFormDataManagerBundle\:
+        resource: ../src/
+        exclude: ../src/{ContaoManager,Enum,Exceptions,Model,EventListener/NotificationCenter,ContaoFormDataManagerBundle.php}
+
+    # Legacy $GLOBALS['WEM_HOOKS'] callbacks are resolved through System::importStatic(), so they must be public
+    WEM\ContaoFormDataManagerBundle\EventListener\PersonalDataManager\:
+        resource: ../src/EventListener/PersonalDataManager/
+        public: true
